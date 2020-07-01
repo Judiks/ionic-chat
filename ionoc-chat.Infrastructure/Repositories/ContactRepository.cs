@@ -2,12 +2,10 @@
 using ionic_chat.DAL.Repositories;
 using ionoc_chat.Infrastructure;
 using ionoc_chat.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Authentication;
 
 namespace ionic_chat.Infrastructure.Repositories
 {
-    public class ContactRepository : BaseRepository<Contact>
+    public class ContactRepository : BaseRepository<Contact>, IContactRepository
     {
         public ContactRepository(ApplicationDBContext applicationDbContext)
             : base(applicationDbContext)

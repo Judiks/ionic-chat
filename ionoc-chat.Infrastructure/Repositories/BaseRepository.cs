@@ -1,10 +1,8 @@
 ﻿using ionic_chat.DAL.Entities;
 using ionic_chat.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ionoc_chat.Infrastructure.Repositories

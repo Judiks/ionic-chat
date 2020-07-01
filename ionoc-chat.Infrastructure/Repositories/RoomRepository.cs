@@ -5,7 +5,7 @@ using ionoc_chat.Infrastructure.Repositories;
 
 namespace ionic_chat.Infrastructure.Repositories
 {
-    public class RoomRepository : BaseRepository<Room>
+    public class RoomRepository : BaseRepository<Room>, IRoomRepository
     {
         public RoomRepository(ApplicationDBContext applicationDBContext)
             : base(applicationDBContext)

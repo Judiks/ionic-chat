@@ -1,11 +1,11 @@
 ﻿using ionic_chat.DAL.Entities;
+using ionic_chat.DAL.Repositories;
 using ionoc_chat.Infrastructure;
 using ionoc_chat.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace ionic_chat.Infrastructure.Repositories
 {
-    public class MessageRepository : BaseRepository<Message>
+    public class MessageRepository : BaseRepository<Message>, IMessageRepository
     {
         public MessageRepository(ApplicationDBContext applicationDBContext)
             : base(applicationDBContext)

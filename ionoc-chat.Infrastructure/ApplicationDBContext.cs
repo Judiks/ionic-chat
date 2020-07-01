@@ -10,7 +10,7 @@ namespace ionoc_chat.Infrastructure
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> context) : base(context)
         {
-                
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
