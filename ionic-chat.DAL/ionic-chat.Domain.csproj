@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>ionic_chat.DAL</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Entities\t0fdwdfy.nyn~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.5" />
+  </ItemGroup>
+
+</Project>
