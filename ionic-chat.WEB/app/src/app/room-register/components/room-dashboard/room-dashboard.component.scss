@@ -1,0 +1,21 @@
+.add-icon-container {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+  }
+  
+  .add-button {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .add-icon {
+    font-size: 10vh;
+  }
+
+  :host {
+    padding: 0px !important;
+  }
+  

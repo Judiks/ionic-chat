@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30223.230
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ionic-chat.WEB", "ionic-chat\ionic-chat.WEB.csproj", "{C9A1B0E1-D0D8-4A02-B3EC-288B842DA5AD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ionic-chat.Domain", "ionic-chat.DAL\ionic-chat.Domain.csproj", "{D6F75800-C00D-4140-9B6C-C9A24D17006B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ionoc-chat.Infrastructure", "ionoc-chat.Infrastructure\ionoc-chat.Infrastructure.csproj", "{2EE2DE1C-23DC-42E3-B467-513FAE70DA42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ionic-chat.WEB", "ionic-chat.WEB\ionic-chat.WEB.csproj", "{6215C72F-383F-4432-885D-1ABAB602A168}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ionic-chat.Infrastructure", "ionic-chat.Infrastructure\ionic-chat.Infrastructure.csproj", "{4EB273A0-4489-4452-B315-34EA9F2987B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C9A1B0E1-D0D8-4A02-B3EC-288B842DA5AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9A1B0E1-D0D8-4A02-B3EC-288B842DA5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9A1B0E1-D0D8-4A02-B3EC-288B842DA5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9A1B0E1-D0D8-4A02-B3EC-288B842DA5AD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6F75800-C00D-4140-9B6C-C9A24D17006B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6F75800-C00D-4140-9B6C-C9A24D17006B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6F75800-C00D-4140-9B6C-C9A24D17006B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6F75800-C00D-4140-9B6C-C9A24D17006B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EE2DE1C-23DC-42E3-B467-513FAE70DA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EE2DE1C-23DC-42E3-B467-513FAE70DA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EE2DE1C-23DC-42E3-B467-513FAE70DA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EE2DE1C-23DC-42E3-B467-513FAE70DA42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6215C72F-383F-4432-885D-1ABAB602A168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6215C72F-383F-4432-885D-1ABAB602A168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6215C72F-383F-4432-885D-1ABAB602A168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6215C72F-383F-4432-885D-1ABAB602A168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EB273A0-4489-4452-B315-34EA9F2987B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB273A0-4489-4452-B315-34EA9F2987B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB273A0-4489-4452-B315-34EA9F2987B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB273A0-4489-4452-B315-34EA9F2987B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
