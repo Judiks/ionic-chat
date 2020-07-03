@@ -1,11 +1,8 @@
 ﻿using ionic_chat.DAL.Repositories;
 using ionic_chat.Infrastructure.Repositories;
+using ionic_chat.Infrastructure.Services;
+using ionic_chat.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ionic_chat.Infrastructure.Extension
 {
@@ -18,6 +15,10 @@ namespace ionic_chat.Infrastructure.Extension
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IUserRoomRepository, UserRoomRepository>();
+
+            // Services
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IRoomService, RoomService>();
         }
     }
 }

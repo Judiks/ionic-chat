@@ -9,10 +9,6 @@ ion-menu.md ion-content {
   --padding-bottom: 20px;
 }
 
-.ion-router {
-  position: absolute;
-}
-
 ion-menu.md ion-list {
   padding: 20px 0;
 }
@@ -120,4 +116,8 @@ ion-note {
 
 ion-item.selected {
   --color: var(--ion-color-primary);
+}
+
+ion-menu{
+  --width: 70%;
 }

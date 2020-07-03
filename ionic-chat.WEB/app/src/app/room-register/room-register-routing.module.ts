@@ -4,6 +4,8 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { RoomRegisterComponent } from './room-register.component';
 import { RoomDashboardComponent } from './components/room-dashboard/room-dashboard.component';
 import { RoomComponent } from './components/room/room.component';
+import { RoomCreatingComponent } from './components/room-creating/room-creating.component';
+import { RoomContactsComponent } from './components/room-contacts/room-contacts.component';
 
 
 
@@ -24,6 +26,14 @@ const routes: Routes = [
       {
         path: 'room',
         component: RoomComponent
+      },
+      {
+        path: 'new',
+        component: RoomCreatingComponent
+      },
+      {
+        path: 'contacts',
+        component: RoomContactsComponent
       },
     ]
   },
