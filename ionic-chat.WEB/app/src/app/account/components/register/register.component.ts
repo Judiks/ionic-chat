@@ -24,4 +24,8 @@ export class RegisterComponent implements OnInit {
   onSignUpClick() {
 
   }
+
+  onNextStepClick() {
+
+  }
 }

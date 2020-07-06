@@ -19,7 +19,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [
     StatusBar,

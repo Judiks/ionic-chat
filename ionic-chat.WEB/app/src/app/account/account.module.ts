@@ -19,7 +19,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
     AccountRoutingModule,
   ],
   providers: [
-    Keyboard
+    Keyboard,
   ]
 })
 export class AccountModule { }

@@ -8,7 +8,7 @@
         border-right: 2px solid var(--ion-color-primary);
     }
 
-    .login-path {
+    .register-path {
         height: 100%;
         display: flex;
         max-width: 100%;
@@ -16,69 +16,69 @@
         margin: auto;
     }
 
-    .login-path-keyboard-active {
+    .register-path-keyboard-active {
         width: 100% !important;
         height: 100vh !important;
     }
 
-    .login-page {
-        height: 100%;
-        width: 100vw;
-        display: inline-flex;
-    }
-
-    .keyboard-login-container-setting {
+    .keyboard-register-container-setting {
         width: 100% !important;
         padding-top: 0% !important;
     }
 
-    .login-container {
+    .register-container {
         width: 70%;
         margin: auto;
         padding-top: 5%;
     }
 
-    .login-img {
+    .register-img {
         margin: auto;
         vertical-align: middle;
         height: 100%;
         max-width: 100%;
     }
 
-    .login-button-keyboard-active {
+    .register-button-keyboard-active {
         font-size: 6vh !important;
     }
     
-    .login-button {
+    .register-button {
         font-size: 3vh;
     }
 
-    .login-small-text-keyboard-active {
+    .register-small-text-keyboard-active {
         font-size: 6vh !important;
     }
 
-    .login-small-text {
+    .register-small-text {
         font-size: 3vh;
     }
     
-    .login-title-keyboard-active {
+    .register-title-keyboard-active {
         font-size: 9vh !important;
     }
 
-    .login-title {
+    .register-title {
         font-size: 6vh;
         color: var(--primary);
+    }
+
+    .register-page {
+        height: 100%;
+        width: 100vw;
+        display: inline-flex;
     }
 }
 
 @media(orientation: portrait) {
-    .login-container {
+    .register-container {
         width: 80%;
         margin: auto;
         padding-top: 5%;
     }
 
-    .login-path {
+    .register-path {
         height: 100vh;
     }
 
@@ -90,25 +90,25 @@
         border-bottom: 2px solid var(--ion-color-primary);
     }
 
-    .login-footer {
+    .register-footer {
         margin-top: 20%;
     }
 
-    .login-img {
+    .register-img {
         margin: auto;
         height: 20vh;
         max-width: 100%;
     }
 
-    .login-button {
+    .register-button {
         font-size: 4vw;
     }
     
-    .login-small-text {
+    .register-small-text {
         font-size: 4vw;
     }
     
-    .login-title {
+    .register-title {
         font-size: 7vw;
         color: var(--primary);
     }
