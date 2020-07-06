@@ -1,7 +1,9 @@
-﻿using ionic_chat.DAL.Repositories;
+﻿using ionic_chat.Domain.HelperInterfaces;
+using ionic_chat.Domain.RepositorieInterfaces;
+using ionic_chat.Domain.Services;
+using ionic_chat.Domain.Services.Interfaces;
+using ionic_chat.Infrastructure.Helpers;
 using ionic_chat.Infrastructure.Repositories;
-using ionic_chat.Infrastructure.Services;
-using ionic_chat.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ionic_chat.Infrastructure.Extension
@@ -19,6 +21,9 @@ namespace ionic_chat.Infrastructure.Extension
             // Services
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IRoomService, RoomService>();
+
+            // Helpers
+            services.AddScoped<IJwtHelper, JwtHelper>();
         }
     }
 }

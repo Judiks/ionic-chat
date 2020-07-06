@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-account',
-  template: `<router-outlet></router-outlet>`
+  template: `<router-outlet class='position-absolute'></router-outlet>`
 })
 export class AccountComponent implements OnInit {
 

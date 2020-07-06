@@ -1,5 +1,5 @@
-﻿using ionic_chat.Infrastructure.Models.Default.Request;
-using ionic_chat.Infrastructure.Services.Interfaces;
+﻿using ionic_chat.Domain.Models.Default.Request;
+using ionic_chat.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

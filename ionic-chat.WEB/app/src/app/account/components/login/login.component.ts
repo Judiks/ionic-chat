@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-login',
@@ -7,8 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  public isKeyboardActive: boolean;
 
-  ngOnInit() {}
+  constructor(private keyboard: Keyboard) {
+    this.keyboard.onKeyboardShow().subscribe(result => {
+      this.isKeyboardActive = true;
+    });
+    this.keyboard.onKeyboardHide().subscribe(result => {
+      this.isKeyboardActive = false;
+    });
+  }
 
+  ngOnInit() {
+  }
+
+  onSignInClick() {
+    console.log('in here');
+
+  }
 }

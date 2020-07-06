@@ -1,5 +1,5 @@
 ﻿
-using ionic_chat.DAL.Entities;
+using ionic_chat.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

@@ -152,7 +152,7 @@ namespace ionic_chat.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.Contact", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.Contact", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -178,7 +178,7 @@ namespace ionic_chat.Infrastructure.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.Message", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.Message", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -201,7 +201,7 @@ namespace ionic_chat.Infrastructure.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.Room", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.Room", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -228,7 +228,7 @@ namespace ionic_chat.Infrastructure.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.User", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -296,7 +296,7 @@ namespace ionic_chat.Infrastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.UserRoom", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.UserRoom", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -333,7 +333,7 @@ namespace ionic_chat.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.User", null)
+                    b.HasOne("ionic_chat.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -342,7 +342,7 @@ namespace ionic_chat.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.User", null)
+                    b.HasOne("ionic_chat.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -357,7 +357,7 @@ namespace ionic_chat.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ionic_chat.DAL.Entities.User", null)
+                    b.HasOne("ionic_chat.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -366,49 +366,49 @@ namespace ionic_chat.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.User", null)
+                    b.HasOne("ionic_chat.Domain.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.Contact", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.Contact", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.User", "User")
+                    b.HasOne("ionic_chat.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("FriendId");
 
-                    b.HasOne("ionic_chat.DAL.Entities.User", "Friend")
+                    b.HasOne("ionic_chat.Domain.Entities.User", "Friend")
                         .WithMany()
                         .HasForeignKey("FriendId1");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.Message", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.Message", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.Room", "Room")
+                    b.HasOne("ionic_chat.Domain.Entities.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId");
 
-                    b.HasOne("ionic_chat.DAL.Entities.User", "User")
+                    b.HasOne("ionic_chat.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.Room", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.Room", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.User", "Creator")
+                    b.HasOne("ionic_chat.Domain.Entities.User", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatorId");
                 });
 
-            modelBuilder.Entity("ionic_chat.DAL.Entities.UserRoom", b =>
+            modelBuilder.Entity("ionic_chat.Domain.Entities.UserRoom", b =>
                 {
-                    b.HasOne("ionic_chat.DAL.Entities.Room", "Room")
+                    b.HasOne("ionic_chat.Domain.Entities.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId");
 
-                    b.HasOne("ionic_chat.DAL.Entities.User", "User")
+                    b.HasOne("ionic_chat.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

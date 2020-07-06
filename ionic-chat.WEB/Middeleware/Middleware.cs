@@ -1,9 +1,8 @@
-﻿using ionic_chat.DAL.Constants;
-using ionic_chat.DAL.Exeptions;
+﻿using ionic_chat.Domain.Constants;
+using ionic_chat.Domain.Exeptions;
+using ionic_chat.Domain.Exсeptions;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ionic_chat.WEB.Middeleware
@@ -21,7 +20,7 @@ namespace ionic_chat.WEB.Middeleware
             {
                 await _next(context);
             }
-            catch (AppExeption exception)
+            catch (AppExсeption exception)
             {
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 if (exception.StatusCode.HasValue)

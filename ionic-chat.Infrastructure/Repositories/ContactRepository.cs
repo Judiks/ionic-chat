@@ -1,5 +1,5 @@
-﻿using ionic_chat.DAL.Entities;
-using ionic_chat.DAL.Repositories;
+﻿using ionic_chat.Domain.Entities;
+using ionic_chat.Domain.RepositorieInterfaces;
 
 namespace ionic_chat.Infrastructure.Repositories
 {

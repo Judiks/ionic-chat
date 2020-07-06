@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using ionic_chat.DAL.Entities;
-using ionic_chat.Infrastructure.Models.Default.Request;
-using ionic_chat.Infrastructure.Models.Default.Response;
+using ionic_chat.Domain.Entities;
+using ionic_chat.Domain.Models.Default.Request;
+using ionic_chat.Domain.Models.Default.Response;
 
 namespace ionic_chat.Infrastructure.Helpers.Mapper
 {
@@ -11,7 +11,7 @@ namespace ionic_chat.Infrastructure.Helpers.Mapper
         {
             // Request's
             CreateMap<RoomRequest, Room>();
-
+            CreateMap<UserRequest, User>();
             // Response's
             CreateMap<Room, RoomResponse>();
         }

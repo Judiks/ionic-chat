@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ionic_chat.DAL.Entities
+namespace ionic_chat.Domain.Entities
 {
     public class BaseEntity
     {

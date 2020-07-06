@@ -23,7 +23,10 @@ namespace ionic_chat
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext(connectionString);
             services.AddDependencies();
+            ConfigureAutomapper(services);
 
+            var securityKey = Configuration.GetSection("AuthOption:JwtKey").Value;
+            services.AddAuthOptions(Configuration, securityKey);
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerDocument(config =>

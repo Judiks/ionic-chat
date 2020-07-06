@@ -1,4 +1,4 @@
-﻿using ionic_chat.DAL.Entities;
+﻿using ionic_chat.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
