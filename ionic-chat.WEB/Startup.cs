@@ -1,6 +1,7 @@
 using AutoMapper;
 using ionic_chat.Infrastructure.Extension;
 using ionic_chat.Infrastructure.Helpers.Mapper;
+using ionic_chat.Infrastructure.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,8 @@ namespace ionic_chat
             services.AddDbContext(connectionString);
             services.AddDependencies();
             ConfigureAutomapper(services);
-
+            var smsOptons = Configuration.GetSection("SMSOptions");
+            services.Configure<SMSoptions>(smsOptons);
             var securityKey = Configuration.GetSection("AuthOption:JwtKey").Value;
             services.AddAuthOptions(Configuration, securityKey);
             services.AddCors();

@@ -1,19 +1,26 @@
 <div class='register-page'>
-  <ion-item lines="none" [ngClass]='{"keyboard-none-setting":isKeyboardActive}' class='logo-path'>
-      <ion-img class='register-img' src='assets/img/logo_despatch.jpg'></ion-img>
+  <ion-item lines="none" [ngClass]='{"keyboard-none-setting":keyboardHelper.isKeyboardActive}' class='logo-path'>
+    <ion-img class='register-img' src='assets/img/logo_despatch.jpg'></ion-img>
   </ion-item>
-  <div class='register-path' [ngClass]='{"register-path-keyboard-active":isKeyboardActive}'>
-      <div  class='register-container' [ngClass]='{"keyboard-register-container-setting":isKeyboardActive}'>
-          <div>
-              <ion-title [ngClass]='{"register-title-keyboard-active":isKeyboardActive}' class='register-title' slot='primary'>Sign Up</ion-title>
-          </div>
-          <ion-item class='mt-2'>
-              <ion-label [ngClass]='{"register-small-text-keyboard-active":isKeyboardActive}' class='register-small-text' position="floating">Phone Number</ion-label>
-              <ion-input type='tel'></ion-input>
-          </ion-item>
-          <div lines='none' class='mt-2 text-center'>
-              <ion-button [ngClass]='{"register-button-keyboard-active":isKeyboardActive}' class='register-button' (click)='onNextStepClick()' size='small'>Continue</ion-button>
-          </div>
+  <div class='register-path' [ngClass]='{"register-path-keyboard-active":keyboardHelper.isKeyboardActive}'>
+    <div [formGroup]='form' class='register-container'
+      [ngClass]='{"keyboard-register-container-setting":keyboardHelper.isKeyboardActive}'>
+      <div>
+        <ion-title [ngClass]='{"register-title-keyboard-active":keyboardHelper.isKeyboardActive}' class='register-title'
+          slot='primary'>Sign Up</ion-title>
       </div>
+      <ion-item class='mt-2'>
+        <ion-label [ngClass]='{"register-small-text-keyboard-active":keyboardHelper.isKeyboardActive}'
+          class='register-small-text' position="floating">Phone Number</ion-label>
+        <ion-input [ngModel]='sendSmsModel.phoneNumber' class='mask-phone' formControlName='phone' type='text'
+          (input)='$event.target.value = pipeHelper.phoneMask($event.target.value, phoneNumber); sendSmsModel.phoneNumber = pipeHelper.phoneMask($event.target.value, phoneNumber);'>
+        </ion-input>
+      </ion-item>
+      <div lines='none' class='mt-2 d-flex justify-content-end'>
+        <ion-button class='register-button' [ngClass]='{"register-button-keyboard-active":keyboardHelper.isKeyboardActive}' (click)='onNextStepClick()' icon-only shape="round">
+          <ion-icon class='register-icon-arrow' name='arrow-forward'></ion-icon>
+        </ion-button>
+      </div>
+    </div>
   </div>
 </div>

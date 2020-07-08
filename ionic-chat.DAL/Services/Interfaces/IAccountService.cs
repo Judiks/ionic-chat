@@ -7,6 +7,7 @@ namespace ionic_chat.Domain.Services.Interfaces
 {
     public interface IAccountService
     {
+        Task<string> SendConfirmSMS(SendConfirmSMSRequest model);
         Task<UserResponse> CreateUser(UserRequest model);
         Task<string> Login(LoginRequest model);
     }

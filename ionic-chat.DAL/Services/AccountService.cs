@@ -21,13 +21,16 @@ namespace ionic_chat.Domain.Services
     {
         private readonly IMapper _mapper;
         private readonly IJwtHelper _jwtHelper;
+        private readonly IAuthMessageHelper _authMessageHelper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         public AccountService(UserManager<User> userManager, 
-            IMapper mapper, SignInManager<User> signInManager, IJwtHelper jwtHelper)
+            IMapper mapper, SignInManager<User> signInManager, IJwtHelper jwtHelper, 
+            IAuthMessageHelper authMessageHelper)
         {
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _authMessageHelper = authMessageHelper;
             _jwtHelper = jwtHelper;
             _mapper = mapper;
         }
@@ -102,6 +105,14 @@ namespace ionic_chat.Domain.Services
             var result = _mapper.Map<User, UserResponse>(user);
             result.Role = model.Role;
             return result;
+        }
+
+        public async Task<string> SendConfirmSMS(SendConfirmSMSRequest model)
+        {
+            var random = new Random();
+            var code = random.Next(100000, 999999).ToString();
+            await _authMessageHelper.SendSmsAsync(model.PhoneNumber, code);
+            return code;
         }
     }
 }

@@ -1,11 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccountComponent } from './account.component';
+import { Injector, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AccountRoutingModule } from './account-routing.module';
+import { AccountComponent } from './account.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
+
+export let InjectorInstance: Injector;
 
 @NgModule({
   declarations: [
@@ -16,10 +18,15 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
   imports: [
     CommonModule,
     IonicModule,
+    FormsModule,
     AccountRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [
-    Keyboard,
   ]
 })
-export class AccountModule { }
+export class AccountModule {
+  constructor(private injector: Injector) {
+    InjectorInstance = this.injector;
+  }
+ }

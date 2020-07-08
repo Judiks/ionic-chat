@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { RoleModel } from './role-model';
-export interface UserRequest {
+export interface UserResponse {
   email?: string;
   password?: string;
   phoneNumber?: string;

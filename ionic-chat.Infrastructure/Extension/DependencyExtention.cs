@@ -24,6 +24,7 @@ namespace ionic_chat.Infrastructure.Extension
 
             // Helpers
             services.AddScoped<IJwtHelper, JwtHelper>();
+            services.AddScoped<IAuthMessageHelper, AuthMessageHelper>();
         }
     }
 }

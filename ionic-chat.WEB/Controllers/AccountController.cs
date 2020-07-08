@@ -47,16 +47,16 @@ namespace ionic_chat.WEB.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(UserRequest model)
+        public async Task<IActionResult> SendRegisterSMS(SendConfirmSMSRequest model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var response = await _accountService.CreateUser(model);
-            return Ok(response);
+            var result = await _accountService.SendConfirmSMS(model);
+            return Ok(result);
         }
     }
 }

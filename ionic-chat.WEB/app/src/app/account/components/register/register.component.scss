@@ -44,7 +44,10 @@
     }
     
     .register-button {
-        font-size: 3vh;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: fit-content;
+        height: fit-content;
     }
 
     .register-small-text-keyboard-active {
@@ -68,6 +71,9 @@
         height: 100%;
         width: 100vw;
         display: inline-flex;
+    }
+    .register-icon-arrow {
+        margin: 2vh;
     }
 }
 
@@ -101,7 +107,10 @@
     }
 
     .register-button {
-        font-size: 4vw;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: fit-content;
+        height: fit-content;
     }
     
     .register-small-text {
@@ -111,6 +120,11 @@
     .register-title {
         font-size: 7vw;
         color: var(--primary);
+    }
+
+    .register-icon-arrow {
+        margin: 3vw;
+        font-size: 6vw;
     }
     
 }
