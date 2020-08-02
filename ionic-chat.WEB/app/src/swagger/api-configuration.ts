@@ -1,5 +1,6 @@
 /* tslint:disable */
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 /**
  * Global configuration for Api services
@@ -8,7 +9,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = 'http://localhost:57124';
+  rootUrl: string = environment.apiURL;
 }
 
 export interface ApiConfigurationInterface {

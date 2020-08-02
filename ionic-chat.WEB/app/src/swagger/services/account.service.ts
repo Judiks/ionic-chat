@@ -18,6 +18,8 @@ class AccountService extends __BaseService {
   static readonly AccountCreateUserPath = '/api/Account/CreateUser';
   static readonly AccountLoginPath = '/api/Account/Login';
   static readonly AccountSendRegisterSMSPath = '/api/Account/SendRegisterSMS';
+  static readonly AccountCheckUserNamePath = '/api/Account/CheckUserName';
+  static readonly AccountCheckUserEmailPath = '/api/Account/CheckUserEmail';
 
   constructor(
     config: __Configuration,
@@ -125,6 +127,74 @@ class AccountService extends __BaseService {
   AccountSendRegisterSMS(model: SendConfirmSMSRequest): __Observable<string> {
     return this.AccountSendRegisterSMSResponse(model).pipe(
       __map(_r => _r.body as string)
+    );
+  }
+
+  /**
+   * @param model undefined
+   */
+  AccountCheckUserNameResponse(model?: null | string): __Observable<__StrictHttpResponse<boolean>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (model != null) __params = __params.set('model', model.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/Account/CheckUserName`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return (_r as HttpResponse<any>).clone({ body: (_r as HttpResponse<any>).body === 'true' }) as __StrictHttpResponse<boolean>
+      })
+    );
+  }
+  /**
+   * @param model undefined
+   */
+  AccountCheckUserName(model?: null | string): __Observable<boolean> {
+    return this.AccountCheckUserNameResponse(model).pipe(
+      __map(_r => _r.body as boolean)
+    );
+  }
+
+  /**
+   * @param model undefined
+   */
+  AccountCheckUserEmailResponse(model?: null | string): __Observable<__StrictHttpResponse<boolean>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (model != null) __params = __params.set('model', model.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/Account/CheckUserEmail`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return (_r as HttpResponse<any>).clone({ body: (_r as HttpResponse<any>).body === 'true' }) as __StrictHttpResponse<boolean>
+      })
+    );
+  }
+  /**
+   * @param model undefined
+   */
+  AccountCheckUserEmail(model?: null | string): __Observable<boolean> {
+    return this.AccountCheckUserEmailResponse(model).pipe(
+      __map(_r => _r.body as boolean)
     );
   }
 }

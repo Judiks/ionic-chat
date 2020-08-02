@@ -15,6 +15,11 @@ namespace ionic_chat
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel(options =>
+                    {
+                      options.ListenAnyIP(57124);
+                      options.ListenLocalhost(57124);
+                    });
                 });
     }
 }

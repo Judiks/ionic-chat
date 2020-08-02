@@ -1,4 +1,5 @@
 using AutoMapper;
+using ionic_chat.Domain.Constants;
 using ionic_chat.Infrastructure.Extension;
 using ionic_chat.Infrastructure.Helpers.Mapper;
 using ionic_chat.Infrastructure.Options;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Linq;
 
 namespace ionic_chat
 {
@@ -29,7 +32,7 @@ namespace ionic_chat
             services.Configure<SMSoptions>(smsOptons);
             var securityKey = Configuration.GetSection("AuthOption:JwtKey").Value;
             services.AddAuthOptions(Configuration, securityKey);
-            services.AddCors();
+            ConfigureCors(services, Configuration);
             services.AddControllers();
             services.AddSwaggerDocument(config =>
             {
@@ -45,13 +48,11 @@ namespace ionic_chat
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+
+            app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors("OriginPolicy");
             app.UseOpenApi();
             app.UseSwaggerUi3();
             app.UseAuthorization();
@@ -61,7 +62,23 @@ namespace ionic_chat
             });
         }
 
-        public static void ConfigureAutomapper(IServiceCollection services)
+        private void ConfigureCors(IServiceCollection services, IConfiguration configuration)
+        {
+            string[] corsOptions = configuration.GetSection("Cors")
+                .GetSection("Origins").GetChildren().ToArray().Select(c => c.Value).ToArray();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("OriginPolicy", builder =>
+                {
+                    builder.WithOrigins(corsOptions)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials().WithExposedHeaders(ExceptionConstant.TokenExpiredHeader, ExceptionConstant.InvalidRefresh);
+                });
+            });
+        }
+
+        private static void ConfigureAutomapper(IServiceCollection services)
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {

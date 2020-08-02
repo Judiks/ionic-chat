@@ -53,11 +53,11 @@ export class PipeHelper {
     }
 
     static phoneMask(value: string, prevValue: string) {
-        let result = '';
+        let result = '+';
         let letters = '';
 
         if (value.length < prevValue.length) {
-            if (value[value.length] === '-' || value[value.length] === ' ') {
+            if (value[value.length] === ' ') {
                 return value.slice(value.length - 1, value.length);
             } else {
                 return value;
@@ -65,24 +65,21 @@ export class PipeHelper {
         }
         value = value.replace(/\s/g, '');
         value = value.split('-').join('');
+        value = value.split('+').join('');
         if (value.length > 0) {
-            result += value.slice(0, 1) + ' ';
-            letters = value.slice(1, value.length);
+            result += value.slice(0, 3) + ' ';
+            letters = value.slice(3, value.length);
         }
-        if (value.length > 3) {
-            result += value.slice(1, 4) + ' ';
-            letters = value.slice(4, value.length);
+        if (value.length > 4) {
+            result += value.slice(3, 5) + ' ';
+            letters = value.slice(5, value.length);
         }
         if (value.length > 6) {
-            result += value.slice(4, 7) + '-';
-            letters = value.slice(7, value.length);
+            result += value.slice(5, 8) + ' ';
+            letters = value.slice(8, value.length);
         }
-        if (value.length > 8) {
-            result += value.slice(7, 9) + '-';
-            letters = value.slice(9, value.length);
-        }
-        if (value.length > 10) {
-            result += value.slice(9, 11);
+        if (value.length > 11) {
+            result += value.slice(8, 12);
             return result;
         }
         return result + letters;

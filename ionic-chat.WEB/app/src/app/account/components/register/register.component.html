@@ -9,18 +9,13 @@
         <ion-title [ngClass]='{"register-title-keyboard-active":keyboardHelper.isKeyboardActive}' class='register-title'
           slot='primary'>Sign Up</ion-title>
       </div>
-      <ion-item class='mt-2'>
-        <ion-label [ngClass]='{"register-small-text-keyboard-active":keyboardHelper.isKeyboardActive}'
-          class='register-small-text' position="floating">Phone Number</ion-label>
-        <ion-input [ngModel]='sendSmsModel.phoneNumber' class='mask-phone' formControlName='phone' type='text'
-          (input)='$event.target.value = pipeHelper.phoneMask($event.target.value, phoneNumber); sendSmsModel.phoneNumber = pipeHelper.phoneMask($event.target.value, phoneNumber);'>
-        </ion-input>
-      </ion-item>
-      <div lines='none' class='mt-2 d-flex justify-content-end'>
-        <ion-button class='register-button' [ngClass]='{"register-button-keyboard-active":keyboardHelper.isKeyboardActive}' (click)='onNextStepClick()' icon-only shape="round">
-          <ion-icon class='register-icon-arrow' name='arrow-forward'></ion-icon>
-        </ion-button>
-      </div>
+
+      <app-register-phone (changedPhone)='onPhoneChange($event)'></app-register-phone>
+      <app-register-code *ngIf='code != "" && !isVerify' [code]='code' (isVerify)='isVerify = $event'>
+      </app-register-code>
+      <app-register-login *ngIf='isVerify && step1'></app-register-login>
+      <app-register-password *ngIf='isVerify && step2'></app-register-password>
+
     </div>
   </div>
 </div>

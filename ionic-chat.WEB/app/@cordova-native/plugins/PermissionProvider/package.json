@@ -1,0 +1,28 @@
+{
+  "name": "cordova-permission-provider-plugin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Judiks/cordova-permission-provider-plugin.git"
+  },
+  "keywords": [
+    "cordova-permission-provider-plugin"
+  ],
+  "author": "Judik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Judiks/cordova-permission-provider-plugin/issues"
+  },
+  "homepage": "https://github.com/Judiks/cordova-permission-provider-plugin#readme",
+  "cordova": {
+    "id": "permission-provider",
+    "platforms": [
+      "android"
+    ]
+  },
+  "description": ""
+}

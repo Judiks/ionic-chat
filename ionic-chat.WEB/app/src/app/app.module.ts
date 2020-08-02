@@ -9,7 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { HttpClientModule } from '@angular/common/http';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   entryComponents: [],
   imports: [
+    HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -26,6 +28,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Keyboard
   ],
   bootstrap: [AppComponent]
 })

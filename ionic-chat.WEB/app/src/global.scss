@@ -24,3 +24,138 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@media(orientation: landscape) {
+
+    .logo-path {
+        display: flex;
+        width: 50%;
+        height: 100vh;
+        padding: 5%;
+        border-right: 2px solid var(--ion-color-primary);
+    }
+
+    .register-path {
+        height: 100%;
+        display: flex;
+        max-width: 100%;
+        width: 50%;
+        margin: auto;
+    }
+
+    .register-path-keyboard-active {
+        width: 100% !important;
+        height: 100vh !important;
+    }
+
+    .keyboard-register-container-setting {
+        width: 100% !important;
+        padding-top: 0% !important;
+    }
+
+    .register-container {
+        width: 70%;
+        margin: auto;
+        padding-top: 5%;
+    }
+
+    .register-img {
+        margin: auto;
+        vertical-align: middle;
+        height: 100%;
+        max-width: 100%;
+    }
+
+    .register-button-keyboard-active {
+        font-size: 6vh !important;
+    }
+    
+    .register-button {
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    .register-small-text-keyboard-active {
+        font-size: 6vh !important;
+    }
+
+    .register-small-text {
+        font-size: 3vh;
+    }
+    
+    .register-title-keyboard-active {
+        font-size: 9vh !important;
+    }
+
+    .register-title {
+        font-size: 6vh;
+        color: var(--primary);
+    }
+
+    .register-page {
+        height: 100%;
+        width: 100vw;
+        display: inline-flex;
+    }
+    .register-icon-arrow {
+        margin: 2vh;
+    }
+}
+
+@media(orientation: portrait) {
+    .register-container {
+        width: 80%;
+        margin: auto;
+        padding-top: 5%;
+    }
+
+    .register-path {
+        height: 100vh;
+    }
+
+    .logo-path {
+        padding-left: 25%;
+        padding-right: 25%;
+        padding-top: 10%;
+        padding-bottom: 10%;
+        border-bottom: 2px solid var(--ion-color-primary);
+    }
+
+    .register-footer {
+        margin-top: 20%;
+    }
+
+    .register-img {
+        margin: auto;
+        height: 20vh;
+        max-width: 100%;
+    }
+
+    .register-button {
+        --padding-start: 0px;
+        --padding-end: 0px;
+        width: fit-content;
+        height: fit-content;
+    }
+    
+    .register-small-text {
+        font-size: 4vw;
+    }
+    
+    .register-title {
+        font-size: 7vw;
+        color: var(--primary);
+    }
+
+    .register-icon-arrow {
+        margin: 3vw;
+        font-size: 6vw;
+    }
+    
+}
+
+.keyboard-none-setting {
+    display: none;
+}

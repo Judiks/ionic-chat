@@ -1,0 +1,17 @@
+<div [formGroup]='form'>
+  <ion-item class='mt-2'>
+    <ion-label [ngClass]='{"register-small-text-keyboard-active":keyboardHelper.isKeyboardActive}'
+      class='register-small-text' position="floating">Phone Number</ion-label>
+    <ion-input [ngModel]='sendSmsModel.phoneNumber' class='mask-phone' formControlName='phoneNumber' type='text'
+      (input)='$event.target.value = pipeHelper.phoneMask($event.target.value, sendSmsModel.phoneNumber);
+     sendSmsModel.phoneNumber = pipeHelper.phoneMask($event.target.value, sendSmsModel.phoneNumber);'>
+    </ion-input>
+  </ion-item>
+  <div lines='none' class='mt-2 d-flex justify-content-end'>
+    <ion-button [disabled]='form.invalid' class='register-button'
+      [ngClass]='{"register-button-keyboard-active":keyboardHelper.isKeyboardActive}' (click)='onNextStepClick()'
+      icon-only shape="round">
+      <ion-icon class='register-icon-arrow' name='arrow-forward'></ion-icon>
+    </ion-button>
+  </div>
+</div>

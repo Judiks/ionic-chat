@@ -1,40 +1,58 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { KeyboardHelper } from 'src/app/shared/helpers/keyboard.helper';
 import { PipeHelper } from 'src/app/shared/helpers/pipe-helper';
-import { UserRequest, SendConfirmSMSRequest } from 'src/swagger/models';
+import { SendConfirmSMSRequest, UserRequest } from 'src/swagger/models';
 import { AccountService } from 'src/swagger/services';
-import { strict } from 'assert';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
+
 export class RegisterComponent implements OnInit, OnDestroy {
 
   public isKeyboardActive: boolean;
+  public user: UserRequest;
   public form: FormGroup;
   public keyboardHelper = KeyboardHelper;
   public pipeHelper = PipeHelper;
   public sendSmsModel: SendConfirmSMSRequest;
+  public code: string;
+  public smsCode: string;
+  public isVerify: boolean;
+  public step1: boolean;
+  public step2: boolean;
 
   constructor(private accountService: AccountService) {
-    this.sendSmsModel = {} as UserRequest;
-    this.form = new FormGroup({
-      phone: new FormControl('', [
-        Validators.required,
-      ])
-    });
+    this.code = '';
+    this.smsCode = '';
+    this.isVerify = false;
+    this.step1 = false;
+    this.step2 = false;
+    this.sendSmsModel = {
+      phoneNumber: ''
+    } as UserRequest;
+
     this.keyboardHelper.BeginListen();
+    this.user = {
+      password: '',
+      userName: '',
+      phoneNumber: '',
+      confirmPassword: '',
+      email: '',
+      role: 0
+    };
   }
 
   ngOnInit() {
+    console.log('app is runing');
   }
 
-  onNextStepClick() {
-    this.accountService.AccountSendRegisterSMS(this.sendSmsModel).subscribe((result : string) => {
-      console.log(result);
+  onPhoneChange(model: SendConfirmSMSRequest) {
+    this.accountService.AccountSendRegisterSMS(model).subscribe((code: string) => {
+      this.code = code;
     });
   }
 

@@ -22,6 +22,7 @@ namespace ionic_chat.WEB.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [Produces("application/json")]
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> CreateUser(UserRequest model)
         {
@@ -56,6 +57,33 @@ namespace ionic_chat.WEB.Controllers
                 return BadRequest();
             }
             var result = await _accountService.SendConfirmSMS(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckUserName(string model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _accountService.CheckUserName(model);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [Produces("application/json")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckUserEmail(string model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _accountService.CheckEmail(model);
             return Ok(result);
         }
     }

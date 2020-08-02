@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="permission-provider" version="1.0.0">
+
+   <name>PermissionProvider</name>
+
+   <js-module name="PermissionProvider" src="www/PermissionProvider.js">
+      <clobbers target="cordova.plugins.PermissionProvider" />
+   </js-module>
+
+   <platform name="android">
+      <config-file parent="/*" target="res/xml/config.xml">
+         <feature name="PermissionProvider">
+            <param name="android-package" value="permissionprovider.PermissionProvider" />
+         </feature>
+      </config-file>
+      <config-file parent="/*" target="AndroidManifest.xml" />
+      <source-file src="src/android/PermissionProvider.java" target-dir="src/permissionprovider/PermissionProvider" />
+   </platform>
+    
+</plugin>

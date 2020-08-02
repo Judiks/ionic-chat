@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>ionic_chat.Infrastructure</RootNamespace>
   </PropertyGroup>
 
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ionic-chat.DAL\ionic-chat.Domain.csproj" />
+    <ProjectReference Include="..\ionic-chat.Domain\ionic-chat.Domain.csproj" />
   </ItemGroup>
 
 </Project>

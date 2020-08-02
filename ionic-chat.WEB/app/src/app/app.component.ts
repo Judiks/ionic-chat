@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements OnInit {
 
-  constructor() {
+export class AppComponent {
+
+
+
+  constructor(platform: Platform) {
+    platform.ready().then(() => {
+
+    });
   }
-
-  ngOnInit(): void {
-
-  }
-
 }

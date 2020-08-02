@@ -16,7 +16,7 @@ import { IonicModule } from '@ionic/angular';
   ],
   imports: [
     CommonModule,
-    IonicModule,
+    IonicModule.forRoot(),
     RoomRegisterRoutingModule
   ]
 })

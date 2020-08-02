@@ -23,7 +23,7 @@ export class KeyboardHelper {
     }
 
     static EndListener(): void {
-        KeyboardHelper.subscriptions.forEach(subscription => {
+        this.subscriptions.forEach(subscription => {
             subscription.unsubscribe();
         });
     }
