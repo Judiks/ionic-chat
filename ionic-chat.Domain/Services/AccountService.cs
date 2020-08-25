@@ -111,14 +111,16 @@ namespace ionic_chat.Domain.Services
 
         public async Task<string> SendConfirmSMS(SendConfirmSMSRequest model)
         {
+            var random = new Random();
+            var code = random.Next(100000, 999999).ToString();
             var number = model.PhoneNumber.Replace(" ", "");
             var user = await _userManager.Users.FirstOrDefaultAsync(user => user.PhoneNumber == number);
             if (!(user is null))
             {
                 throw new AppExсeption(StatusCodes.Status400BadRequest, ExceptionConstant.UserAlreadyExist);
             }
-            var random = new Random();
-            var code = random.Next(100000, 999999).ToString();
+
+
             await _authMessageHelper.SendSmsAsync(number, "You verification code: " + code);
             return code;
         }

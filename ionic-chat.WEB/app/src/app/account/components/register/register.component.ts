@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { KeyboardHelper } from 'src/app/shared/helpers/keyboard.helper';
 import { PipeHelper } from 'src/app/shared/helpers/pipe-helper';
 import { SendConfirmSMSRequest, UserRequest } from 'src/swagger/models';
 import { AccountService } from 'src/swagger/services';
+import { BaseComponent } from 'src/app/shared/base.component';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-register',
@@ -11,31 +12,26 @@ import { AccountService } from 'src/swagger/services';
   styleUrls: ['./register.component.scss'],
 })
 
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent extends BaseComponent implements OnInit {
 
-  public isKeyboardActive: boolean;
+  public isKeyboardActive = false;
   public user: UserRequest;
   public form: FormGroup;
-  public keyboardHelper = KeyboardHelper;
   public pipeHelper = PipeHelper;
   public sendSmsModel: SendConfirmSMSRequest;
-  public code: string;
-  public smsCode: string;
-  public isVerify: boolean;
-  public step1: boolean;
-  public step2: boolean;
+  public code = '';
+  public smsCode = '';
+  public codeSended = false;
+  public isVerify = false;
+  public step1 = false;
+  public step2 = false;
 
-  constructor(private accountService: AccountService) {
-    this.code = '';
-    this.smsCode = '';
-    this.isVerify = false;
-    this.step1 = false;
-    this.step2 = false;
+  constructor(private accountService: AccountService, public keyboard: Keyboard) {
+    super(keyboard);
     this.sendSmsModel = {
       phoneNumber: ''
     } as UserRequest;
 
-    this.keyboardHelper.BeginListen();
     this.user = {
       password: '',
       userName: '',
@@ -48,15 +44,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('app is runing');
+
   }
 
   onPhoneChange(model: SendConfirmSMSRequest) {
     this.accountService.AccountSendRegisterSMS(model).subscribe((code: string) => {
       this.code = code;
+      this.codeSended = true;
     });
   }
 
-  ngOnDestroy(): void {
-    this.keyboardHelper.EndListener();
-  }
 }

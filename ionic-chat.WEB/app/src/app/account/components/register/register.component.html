@@ -1,18 +1,17 @@
 <div class='register-page'>
-  <ion-item lines="none" [ngClass]='{"keyboard-none-setting":keyboardHelper.isKeyboardActive}' class='logo-path'>
+  <ion-item lines="none" [ngClass]='{"keyboard-none-setting":isKeyboardActive}' class='logo-path'>
     <ion-img class='register-img' src='assets/img/logo_despatch.jpg'></ion-img>
   </ion-item>
-  <div class='register-path' [ngClass]='{"register-path-keyboard-active":keyboardHelper.isKeyboardActive}'>
+  <div class='register-path' [ngClass]='{"register-path-keyboard-active":isKeyboardActive}'>
     <div [formGroup]='form' class='register-container'
-      [ngClass]='{"keyboard-register-container-setting":keyboardHelper.isKeyboardActive}'>
+      [ngClass]='{"keyboard-register-container-setting":isKeyboardActive}'>
       <div>
-        <ion-title [ngClass]='{"register-title-keyboard-active":keyboardHelper.isKeyboardActive}' class='register-title'
+        <ion-title [ngClass]='{"register-title-keyboard-active":isKeyboardActive}' class='register-title'
           slot='primary'>Sign Up</ion-title>
       </div>
 
-      <app-register-phone (changedPhone)='onPhoneChange($event)'></app-register-phone>
-      <app-register-code *ngIf='code != "" && !isVerify' [code]='code' (isVerify)='isVerify = $event'>
-      </app-register-code>
+      <app-register-phone *ngIf='!codeSended' (changedPhone)='onPhoneChange($event)'></app-register-phone>
+      <app-register-code *ngIf='codeSended' [code]='code' (isVerify)='isVerify = $event'></app-register-code>
       <app-register-login *ngIf='isVerify && step1'></app-register-login>
       <app-register-password *ngIf='isVerify && step2'></app-register-password>
 

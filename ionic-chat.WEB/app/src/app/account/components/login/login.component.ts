@@ -1,30 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { KeyboardHelper } from 'src/app/shared/helpers/keyboard.helper';
+import { BaseComponent } from 'src/app/shared/base.component';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent extends BaseComponent{
 
-  public keyboardHelper = KeyboardHelper;
-
-  constructor() {
-    this.keyboardHelper.BeginListen();
-  }
-
-
-
-  ngOnInit() {
+  constructor(public keyboard: Keyboard) {
+    super(keyboard);
   }
 
   onSignInClick() {
     console.log('in here');
 
-  }
-
-  ngOnDestroy(): void {
-    this.keyboardHelper.EndListener();
   }
 }

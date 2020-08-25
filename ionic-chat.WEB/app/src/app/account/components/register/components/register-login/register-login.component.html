@@ -1,19 +1,19 @@
 <ion-item class='mt-2'>
-  <ion-label [ngClass]='{"register-small-text-keyboard-active":keyboardHelper.isKeyboardActive}'
+  <ion-label [ngClass]='{"register-small-text-keyboard-active":isKeyboardActive}'
     class='register-small-text' position="floating">User Name</ion-label>
   <ion-input [(ngModel)]='user.userName' (input)='checkUserName()' class='mask-phone' formControlName='userName'
     type='text'>
   </ion-input>
 </ion-item>
 <ion-item class='mt-2'>
-  <ion-label [ngClass]='{"register-small-text-keyboard-active":keyboardHelper.isKeyboardActive}'
+  <ion-label [ngClass]='{"register-small-text-keyboard-active":isKeyboardActive}'
     class='register-small-text' position="floating">Email</ion-label>
   <ion-input [(ngModel)]='user.email' (input)='checkEmail()' class='mask-phone' formControlName='email' type='text'>
   </ion-input>
 </ion-item>
 
 <div lines='none' class='mt-2 d-flex justify-content-end'>
-  <ion-button class='register-button' [ngClass]='{"register-button-keyboard-active":keyboardHelper.isKeyboardActive}'
+  <ion-button class='register-button' [ngClass]='{"register-button-keyboard-active":isKeyboardActive}'
     (click)='onNextStepClick()' icon-only shape="round">
     <ion-icon class='register-icon-arrow' name='arrow-forward'></ion-icon>
   </ion-button>

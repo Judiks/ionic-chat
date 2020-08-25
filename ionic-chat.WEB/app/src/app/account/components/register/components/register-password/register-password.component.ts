@@ -1,23 +1,23 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { KeyboardHelper } from 'src/app/shared/helpers/keyboard.helper';
 import { SendConfirmSMSRequest } from 'src/swagger/models';
 import { AccountService } from 'src/swagger/services';
+import { BaseComponent } from 'src/app/shared/base.component';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-register-password',
   templateUrl: './register-password.component.html',
   styleUrls: ['./register-password.component.scss'],
 })
-export class RegisterPasswordComponent implements OnDestroy {
+export class RegisterPasswordComponent extends BaseComponent {
 
   public form: FormGroup;
-  public keyboardHelper = KeyboardHelper;
   public sendSmsModel: SendConfirmSMSRequest;
 
 
-  constructor(private accountService: AccountService) {
-
+  constructor(private accountService: AccountService, public keyboard: Keyboard) {
+    super(keyboard);
     this.form = new FormGroup({
       password: new FormControl('', [
         Validators.required,
@@ -26,7 +26,7 @@ export class RegisterPasswordComponent implements OnDestroy {
         Validators.required,
       ]),
     });
-    this.keyboardHelper.BeginListen();
+
   }
 
 
@@ -34,7 +34,4 @@ export class RegisterPasswordComponent implements OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-    this.keyboardHelper.EndListener();
-  }
 }

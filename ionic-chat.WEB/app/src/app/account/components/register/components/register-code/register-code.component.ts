@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { KeyboardHelper } from 'src/app/shared/helpers/keyboard.helper';
+import { BaseComponent } from 'src/app/shared/base.component';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-register-code',
   templateUrl: './register-code.component.html',
   styleUrls: ['./register-code.component.scss'],
 })
-export class RegisterCodeComponent implements OnDestroy {
+export class RegisterCodeComponent extends BaseComponent {
 
   @Input() code: string;
   @Output() isVerify: EventEmitter<boolean>;
   public form: FormGroup;
-  public keyboardHelper = KeyboardHelper;
   public smsCode: string;
 
-  constructor() {
+  constructor(public keyboard: Keyboard) {
+    super(keyboard);
     this.isVerify = new EventEmitter();
     this.form = new FormGroup({
       code: new FormControl('', [
@@ -24,7 +25,6 @@ export class RegisterCodeComponent implements OnDestroy {
         Validators.minLength(6)
       ]),
     });
-    this.keyboardHelper.BeginListen();
   }
 
   onCheckSmsCode() {
@@ -35,9 +35,5 @@ export class RegisterCodeComponent implements OnDestroy {
 
   getMessage() {
 
-  }
-
-  ngOnDestroy(): void {
-    this.keyboardHelper.EndListener();
   }
 }
