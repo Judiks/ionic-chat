@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "746516022341",
+    "firebase_url": "https://despatch-800f3.firebaseio.com",
+    "project_id": "despatch-800f3",
+    "storage_bucket": "despatch-800f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746516022341:android:c3e0cd81e695c2206c4f2c",
+        "android_client_info": {
+          "package_name": "despatch.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746516022341-ep97g3vo4nujk93opnul8i610e70pbfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQqHppSE-3H2ax1vaUlFF0ZP8LcWkTZ7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746516022341-ep97g3vo4nujk93opnul8i610e70pbfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

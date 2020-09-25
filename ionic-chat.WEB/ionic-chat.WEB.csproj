@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>ionic_chat.WEB</RootNamespace>
     <UserSecretsId>bbfe2d30-d1da-4af8-b8d2-1c08875c96a8</UserSecretsId>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>

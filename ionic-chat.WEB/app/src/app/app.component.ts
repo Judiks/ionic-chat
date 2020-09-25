@@ -12,6 +12,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 export class AppComponent {
 
   constructor(platform: Platform, private permissionHelper: PermissionHelper, private permission: AndroidPermissions) {
+    debugger
     permissionHelper.checkPermissionSubject.subscribe(result => {
       if (!result.isActive) {
         permissionHelper.requestPermission(result.code);

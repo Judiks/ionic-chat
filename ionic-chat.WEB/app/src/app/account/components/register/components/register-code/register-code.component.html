@@ -1,9 +1,0 @@
-<div [formGroup]='form'>
-  <ion-item class='mt-2'>
-    <ion-label [ngClass]='{"register-small-text-keyboard-active":isKeyboardActive}'
-      class='register-small-text' position="floating">You Verification Code</ion-label>
-    <ion-input [(ngModel)]='smsCode' (appDebounce)='onCheckSmsCode()' class='mask-phone' formControlName='code'
-      type='text'>
-    </ion-input>
-  </ion-item>
-</div>
