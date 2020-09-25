@@ -40,7 +40,6 @@
     "cordova-support-google-services": "^1.4.1",
     "gulp-cli": "^2.3.0",
     "ngx-mask": "^9.1.4",
-    "permissionprovider": "git+https://github.com/Judiks/cordova-permission-provider-plugin.git",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -72,6 +71,7 @@
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "ng-swagger-gen": "^2.3.0",
+    "permissionprovider": "git+https://github.com/Judiks/cordova-permission-provider-plugin.git",
     "phone-data": "git+https://github.com/Judiks/ionic-phone-data-plugin.git",
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
@@ -89,11 +89,11 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-device": {},
-      "permission-provider": {},
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-sms-retriever": {},
       "cordova-support-google-services": {},
-      "phone-data": {}
+      "phone-data": {},
+      "permission-provider": {}
     },
     "platforms": [
       "android"

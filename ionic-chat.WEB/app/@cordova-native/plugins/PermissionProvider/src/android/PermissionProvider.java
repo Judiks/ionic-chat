@@ -16,15 +16,14 @@ import org.json.JSONException;
  */
 public class PermissionProvider extends CordovaPlugin implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private static final int PERMISSION_CODE = 500;
-    Context _context = this.cordova.getActivity().getApplicationContext();
     private boolean isReadPermission = false;
 
     @Override
     public boolean execute(String action, JSONArray model, CallbackContext callbackContext) throws JSONException {
         if (action.equals("requestPermission")) {
             String message = model.getString(0);
-            this.requestPermission(message, callbackContext);
+            int code = model.getInt(1);
+            this.requestPermission(message, code, callbackContext);
             return true;
         }
         if (action.equals("checkPermission")) {
@@ -36,6 +35,7 @@ public class PermissionProvider extends CordovaPlugin implements ActivityCompat.
     }
 
     private void checkPermission(String message, CallbackContext callbackContext) {
+        Context _context = this.cordova.getActivity().getApplicationContext();
         if (ContextCompat.checkSelfPermission(
                 _context, message) ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -45,7 +45,8 @@ public class PermissionProvider extends CordovaPlugin implements ActivityCompat.
         }
     }
 
-    private void requestPermission(String message, CallbackContext callbackContext) {
+    private void requestPermission(String message, int PERMISSION_CODE, CallbackContext callbackContext) {
+        Context _context = this.cordova.getActivity().getApplicationContext();
         ActivityCompat.requestPermissions(this.cordova.getActivity(), new String[]{message}, PERMISSION_CODE);
     }
 

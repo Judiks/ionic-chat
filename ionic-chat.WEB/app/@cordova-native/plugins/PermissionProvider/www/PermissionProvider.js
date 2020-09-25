@@ -1,9 +1,9 @@
 var exec = require('cordova/exec');
 
-exports.requestPermission = function (model, success, error) {
-    exec(success, error, 'PermissionProvider', 'requestPermission', [model]);
+exports.requestPermission = function (name, code, success, error) {
+    exec(success, error, 'PermissionProvider', 'requestPermission', [name, code]);
 };
 
-exports.checkPermission = function (model, success, error) {
-    exec(success, error, 'PermissionProvider', 'checkPermission', [model]);
+exports.checkPermission = function (name, success, error) {
+    exec(success, error, 'PermissionProvider', 'checkPermission', [name]);
 };

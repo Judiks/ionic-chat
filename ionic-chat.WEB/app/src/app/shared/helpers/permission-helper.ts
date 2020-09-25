@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { Subject } from 'rxjs';
+import { AsyncSubject, Subject } from 'rxjs';
 import { PermissionDto } from '../dto/permission.dto';
 
 declare let cordova: any;
@@ -10,26 +10,30 @@ declare let cordova: any;
 })
 export class PermissionHelper {
 
-    public checkPermissionSubject = new Subject<PermissionDto>();
+    private checkPermissionSubject = new Subject<PermissionDto>();
     constructor(private platform: Platform) { }
 
-    checkPermissionMethod(code: string) {
+    checkPermissionMethod(permission: string) {
         this.platform.ready().then(() => {
-            cordova.plugins.PermissionProvider.checkPermission(code, (result: string) => {
-                this.checkPermissionSubject.next(new PermissionDto(true, code));
+            cordova.plugins.PermissionProvider.checkPermission(permission, (result: string) => {
+                this.checkPermissionSubject.next(new PermissionDto(true, Math.random() * 100, permission));
             }, err => {
-                this.checkPermissionSubject.next(new PermissionDto(false, code));
+                this.checkPermissionSubject.next(new PermissionDto(false, Math.random() * 100, permission));
             });
         });
     }
 
-    public requestPermission(code: string) {
+    public requestPermission(permission: string, code: number) {
         this.platform.ready().then(() => {
-            cordova.plugins.PermissionProvider.requestPermission(code, (result: string) => {
+            cordova.plugins.PermissionProvider.requestPermission(permission, code, (result: string) => {
                 return true;
             }, err => {
                 return false;
             });
         });
+    }
+
+    public getPermission() {
+        return this.checkPermissionSubject.asObservable();
     }
 }
