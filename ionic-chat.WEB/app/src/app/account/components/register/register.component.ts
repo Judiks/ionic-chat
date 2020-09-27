@@ -8,6 +8,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Platform } from '@ionic/angular';
 
 declare let cordova: any;
+declare let firebase: any;
 declare let SMSRetriever: any;
 
 @Component({
@@ -55,9 +56,11 @@ export class RegisterComponent extends BaseComponent {
         Validators.required,
       ]),
     });
+
     this.sendSmsModel = {
-      phoneNumber: ''
-    } as UserRequest;
+      phoneNumber: '',
+      hash: ''
+    } as SendConfirmSMSRequest;
 
     this.user = {
       password: '',
@@ -73,35 +76,47 @@ export class RegisterComponent extends BaseComponent {
 
   onPlugins() {
     this.platform.ready().then(() => {
-      cordova.plugins.PhoneData.getData(result => {
-        debugger
+      // get phone number
+      cordova.plugins.PhoneData.getData((result: string) => {
         this.sendSmsModel.phoneNumber = PipeHelper.phoneMask(result, '');
-      }, err => {
-        console.log(err);
-      });
-
-      SMSRetriever.startWatch((msg) => {
-        document.addEventListener('onSMSArrive', (args) => {
-          debugger
-          console.log(args['message']);
-      });
-      }, (err) => {
-        console.error(err);
-      });
+      },
+        (err) => {
+          console.log(err);
+        });
+      // get app hash
+      SMSRetriever.getHashString((hash) => {
+        this.sendSmsModel.hash = hash;
+      },
+        (err) => {
+          console.log(err);
+        });
     });
   }
 
   onSendSms() {
+    debugger
     this.sendSmsModel.phoneNumber = this.smsCode;
+
+    // send sms with verification code
     this.accountService.AccountSendRegisterSMS(this.sendSmsModel).subscribe((code: string) => {
       this.code = code;
       this.codeSended = true;
+
+      // start scan incoming sms
+      SMSRetriever.startWatch((msg) => {
+        document.addEventListener('onSMSArrive', (args: any) => {
+          console.log(args.message);
+        });
+      },
+        (err) => {
+          console.log(err);
+        });
     },
-      err => {
+      (err) => {
         console.log(err);
       });
   }
-
+  
   checkUserName() {
     this.accountService.AccountCheckUserName(this.user.userName).subscribe(result => {
       if (!result) {

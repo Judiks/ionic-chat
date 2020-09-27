@@ -9,5 +9,6 @@ namespace ionic_chat.Domain.Models.Account.Request
     public class SendConfirmSMSRequest
     {
         public string PhoneNumber { get; set; }
+        public string Hash { get; set; }
     }
 }

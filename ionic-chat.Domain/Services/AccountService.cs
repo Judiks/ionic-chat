@@ -121,7 +121,7 @@ namespace ionic_chat.Domain.Services
             }
 
 
-            await _authMessageHelper.SendSmsAsync(number, "You verification code: " + code);
+            await _authMessageHelper.SendSmsAsync(number, $"Your Despatch verification code: { code } \n\n Thank you for choosing us. Best regards, Despatch team. \n\n { model.Hash }");
             return code;
         }
 

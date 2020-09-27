@@ -16,6 +16,7 @@
   "dependencies": {
     "@angular/common": "~9.1.6",
     "@angular/core": "^9.1.12",
+    "@angular/fire": "^6.0.3",
     "@angular/forms": "^9.1.12",
     "@angular/localize": "^9.1.12",
     "@angular/platform-browser": "^9.1.12",
@@ -38,6 +39,7 @@
     "cordova-plugin-extended-device-information": "^2.2.0",
     "cordova-plugin-sms-retriever": "^1.0.9",
     "cordova-support-google-services": "^1.4.1",
+    "firebase": "^7.21.1",
     "gulp-cli": "^2.3.0",
     "ngx-mask": "^9.1.4",
     "rxjs": "~6.5.1",
