@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PlatformLocation } from '@angular/common';
+import { ApplicationRef, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { Platform } from '@ionic/angular';
+import { BaseComponent } from 'src/app/shared/base.component';
 import { PipeHelper } from 'src/app/shared/helpers/pipe-helper';
 import { SendConfirmSMSRequest, UserRequest } from 'src/swagger/models';
 import { AccountService } from 'src/swagger/services';
-import { BaseComponent } from 'src/app/shared/base.component';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { Platform } from '@ionic/angular';
 
 declare let cordova: any;
-declare let firebase: any;
 declare let SMSRetriever: any;
 
 @Component({
@@ -18,8 +18,6 @@ declare let SMSRetriever: any;
 })
 
 export class RegisterComponent extends BaseComponent {
-
-  public isKeyboardActive = false;
   public user: UserRequest;
   public form: FormGroup;
   public pipeHelper = PipeHelper;
@@ -31,8 +29,12 @@ export class RegisterComponent extends BaseComponent {
   public step1 = false;
   public step2 = false;
 
-  constructor(private platform: Platform, private accountService: AccountService, public keyboard: Keyboard) {
-    super(keyboard);
+  constructor(
+    private platform: Platform, private accountService: AccountService, public keyboard: Keyboard,
+    public AppR: ApplicationRef, public location: PlatformLocation
+  ) {
+    super(keyboard, AppR, location);
+
     this.form = new FormGroup({
       phoneNumber: new FormControl('', [
         Validators.required,
@@ -94,19 +96,17 @@ export class RegisterComponent extends BaseComponent {
   }
 
   onSendSms() {
-    debugger
-    this.sendSmsModel.phoneNumber = this.smsCode;
-
     // send sms with verification code
     this.accountService.AccountSendRegisterSMS(this.sendSmsModel).subscribe((code: string) => {
       this.code = code;
       this.codeSended = true;
 
       // start scan incoming sms
-      SMSRetriever.startWatch((msg) => {
-        document.addEventListener('onSMSArrive', (args: any) => {
-          console.log(args.message);
-        });
+      SMSRetriever.startWatch((message) => {
+        if (message.match(/\d{6}/g)) {
+          this.smsCode = message.match(/\d{6}/)[0];
+        }
+
       },
         (err) => {
           console.log(err);
@@ -116,7 +116,7 @@ export class RegisterComponent extends BaseComponent {
         console.log(err);
       });
   }
-  
+
   checkUserName() {
     this.accountService.AccountCheckUserName(this.user.userName).subscribe(result => {
       if (!result) {

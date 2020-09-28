@@ -3,9 +3,8 @@ export class PermissionDto {
     public code!: number;
     public permission: string;
 
-    constructor(isActive: boolean, code: number, permission: string) {
+    constructor(isActive: boolean, permission: string) {
         this.isActive = isActive;
-        this.code = code;
         this.permission = permission;
     }
 }

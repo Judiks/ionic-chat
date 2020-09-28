@@ -119,9 +119,9 @@ namespace ionic_chat.Domain.Services
             {
                 throw new AppExсeption(StatusCodes.Status400BadRequest, ExceptionConstant.UserAlreadyExist);
             }
-
-
             await _authMessageHelper.SendSmsAsync(number, $"Your Despatch verification code: { code } \n\n Thank you for choosing us. Best regards, Despatch team. \n\n { model.Hash }");
+
+
             return code;
         }
 

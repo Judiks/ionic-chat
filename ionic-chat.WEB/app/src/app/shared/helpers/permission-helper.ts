@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { AsyncSubject, Subject } from 'rxjs';
+import { Subject, Subscriber } from 'rxjs';
 import { PermissionDto } from '../dto/permission.dto';
 
 declare let cordova: any;
@@ -11,25 +11,52 @@ declare let cordova: any;
 export class PermissionHelper {
 
     private checkPermissionSubject = new Subject<PermissionDto>();
-    constructor(private platform: Platform) { }
+    private requestQueue: string[] = [];
+    private requests: Subscriber<any>[] = [];
 
-    checkPermissionMethod(permission: string) {
+    constructor(private platform: Platform) {
+        this.getPermission().subscribe((result: PermissionDto) => {
+            if (!result.isActive) {
+              this.addRequestToQueue(result);
+            }
+            this.checkRequestsCount();
+          });
+    }
+
+    private addRequestToQueue(model: PermissionDto) {
+        this.requestQueue.push(model.permission);
+    }
+
+    private checkRequestsCount() {
+        if (this.requests.length > 0) {
+            this.requests.shift();
+        }
+        if (this.requests.length === 0) {
+            this.requestPermission(this.requestQueue, Math.random() * 100);
+        }
+    }
+
+    public checkPermissionMethod(permission: string) {
         this.platform.ready().then(() => {
-            cordova.plugins.PermissionProvider.checkPermission(permission, (result: string) => {
-                this.checkPermissionSubject.next(new PermissionDto(true, Math.random() * 100, permission));
-            }, err => {
-                this.checkPermissionSubject.next(new PermissionDto(false, Math.random() * 100, permission));
-            });
+            this.requests.push(
+                cordova.plugins.PermissionProvider.checkPermission(permission, (result: string) => {
+                    this.checkPermissionSubject.next(new PermissionDto(true, permission));
+                },
+                    (err) => {
+                        this.checkPermissionSubject.next(new PermissionDto(false, permission));
+                    })
+            );
         });
     }
 
-    public requestPermission(permission: string, code: number) {
+    private requestPermission(permission: string[], code: number) {
         this.platform.ready().then(() => {
             cordova.plugins.PermissionProvider.requestPermission(permission, code, (result: string) => {
-                return true;
-            }, err => {
-                return false;
-            });
+                console.log('Permission request was sended');
+            },
+                (err) => {
+                    console.log('Something went wrong');
+                });
         });
     }
 

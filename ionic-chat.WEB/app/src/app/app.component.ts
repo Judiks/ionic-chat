@@ -13,11 +13,6 @@ import { PermissionDto } from './shared/dto/permission.dto';
 export class AppComponent {
 
   constructor(platform: Platform, private permissionHelper: PermissionHelper, private permission: AndroidPermissions) {
-    permissionHelper.getPermission().subscribe((result: PermissionDto) => {
-      if (!result.isActive) {
-        permissionHelper.requestPermission(result.permission, result.code);
-      }
-    });
     platform.ready().then(() => {
       permissionHelper.checkPermissionMethod(this.permission.PERMISSION.READ_PHONE_STATE);
       permissionHelper.checkPermissionMethod(this.permission.PERMISSION.READ_SMS);

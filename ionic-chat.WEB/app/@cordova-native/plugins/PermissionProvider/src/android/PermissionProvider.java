@@ -11,19 +11,23 @@ import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class echoes a string called from JavaScript.
  */
-public class PermissionProvider extends CordovaPlugin implements ActivityCompat.OnRequestPermissionsResultCallback {
-
-    private boolean isReadPermission = false;
-
+public class PermissionProvider extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray model, CallbackContext callbackContext) throws JSONException {
         if (action.equals("requestPermission")) {
-            String message = model.getString(0);
+            JSONArray jsonArray = model.getJSONArray(0);
+            List<String> permissions = new ArrayList<String>();
+            for (int i = 0; i < jsonArray.length(); i++){
+                permissions.add(jsonArray.getString(i));
+            }
             int code = model.getInt(1);
-            this.requestPermission(message, code, callbackContext);
+            this.requestPermission(permissions.toArray(new String[permissions.size()]), code, callbackContext);
             return true;
         }
         if (action.equals("checkPermission")) {
@@ -45,18 +49,8 @@ public class PermissionProvider extends CordovaPlugin implements ActivityCompat.
         }
     }
 
-    private void requestPermission(String message, int PERMISSION_CODE, CallbackContext callbackContext) {
-        Context _context = this.cordova.getActivity().getApplicationContext();
-        ActivityCompat.requestPermissions(this.cordova.getActivity(), new String[]{message}, PERMISSION_CODE);
+    private void requestPermission(String[] permissions, int PERMISSION_CODE, CallbackContext callbackContext) {
+        ActivityCompat.requestPermissions(this.cordova.getActivity(), permissions, PERMISSION_CODE);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            isReadPermission = true;
-        } else {
-            isReadPermission = false;
-        }
-    }
 }

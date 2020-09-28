@@ -1,7 +1,7 @@
 {
   "name": "despatch",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Judik",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
@@ -41,6 +41,7 @@
     "cordova-support-google-services": "^1.4.1",
     "firebase": "^7.21.1",
     "gulp-cli": "^2.3.0",
+    "ionic": "^5.4.16",
     "ngx-mask": "^9.1.4",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
