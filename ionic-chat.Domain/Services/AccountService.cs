@@ -5,15 +5,21 @@ using ionic_chat.Domain.Exeptions;
 using ionic_chat.Domain.Exсeptions;
 using ionic_chat.Domain.HelperInterfaces;
 using ionic_chat.Domain.Models.Account.Request;
+using ionic_chat.Domain.Models.Account.Response;
 using ionic_chat.Domain.Models.Default.Request;
 using ionic_chat.Domain.Models.Default.Response;
+using ionic_chat.Domain.Models.Enums;
+using ionic_chat.Domain.Models.RazorModels;
 using ionic_chat.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ionic_chat.Domain.Services
@@ -22,16 +28,18 @@ namespace ionic_chat.Domain.Services
     {
         private readonly IMapper _mapper;
         private readonly IJwtHelper _jwtHelper;
+        private readonly IEmailHelper _emailHelper;
         private readonly IAuthMessageHelper _authMessageHelper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         public AccountService(UserManager<User> userManager,
             IMapper mapper, SignInManager<User> signInManager, IJwtHelper jwtHelper,
-            IAuthMessageHelper authMessageHelper)
+            IAuthMessageHelper authMessageHelper, IEmailHelper emailHelper)
         {
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _authMessageHelper = authMessageHelper;
+            _emailHelper = emailHelper;
             _jwtHelper = jwtHelper;
             _mapper = mapper;
         }
@@ -56,26 +64,29 @@ namespace ionic_chat.Domain.Services
             return null;
         }
 
-        public async Task<string> Login(LoginRequest model)
+        public async Task<LoginResponse> Login(LoginRequest model)
         {
-            var user = await FindUser(model.Login);
+            User user = await FindUser(model.Login);
             var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
             if (user is null)
             {
                 throw new AppExсeption(ExceptionConstant.WrongEmailOrPassword);
             }
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.IsRememberMe, false);
+            SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
             if (!result.Succeeded)
             {
                 throw new AppExсeption(ExceptionConstant.WrongEmailOrPassword);
             }
-            var response = _jwtHelper.CreateToken(user, role);
+            string authToken = _jwtHelper.CreateToken(user, role);
+            LoginResponse response = _mapper.Map<User, LoginResponse>(user);
+            response.AuthToken = authToken;
+            response.Role = Enum.Parse<RoleModel>(role);
             return response;
 
         }
         private async Task IsUserExist(UserRequest model)
         {
-            var isEmailExist = await _userManager.FindByEmailAsync(model.Email);
+            User isEmailExist = await _userManager.FindByEmailAsync(model.Email);
             var isPhoneExist = await _userManager.Users.AnyAsync(user => user.PhoneNumber == model.PhoneNumber);
             var isNameExist = await _userManager.Users.AnyAsync(user => user.UserName == model.UserName);
             if (isEmailExist != null)
@@ -93,19 +104,28 @@ namespace ionic_chat.Domain.Services
                 throw new ApplicationException("Username already exists");
             }
         }
-        public async Task<UserResponse> CreateUser(UserRequest model)
+
+        public async Task<UserResponse> Register(RegisterRequest model)
         {
             await IsUserExist(model);
-            var user = _mapper.Map<UserRequest, User>(model);
-            var password = _userManager.PasswordHasher.HashPassword(user, model.Password);
-            var status = await _userManager.CreateAsync(user, password);
+            User user = _mapper.Map<UserRequest, User>(model);
+            user.PhoneNumberConfirmed = true;
+            IdentityResult status = await _userManager.CreateAsync(user, model.Password);
             if (!status.Succeeded)
             {
                 throw new AppExсeption(StatusCodes.Status400BadRequest, status.Errors.FirstOrDefault().ToString());
             }
             await _userManager.AddToRoleAsync(user, model.Role.ToString());
-            var result = _mapper.Map<User, UserResponse>(user);
+            UserResponse result = _mapper.Map<User, UserResponse>(user);
             result.Role = model.Role;
+
+            var confirmEmail = new ConfirmEmailView();
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            confirmEmail.CallbackUrl = _emailHelper.GetEmailConfirmUrl(code, user.Email);
+            confirmEmail.UserName = model.UserName;
+            var template = await _emailHelper.GetTemplateHtmlAsStringAsync("ConfirmEmailView", confirmEmail);
+            await _emailHelper.SendEmailAsync(model.Email, "Confirm Email", template);
             return result;
         }
 
@@ -114,7 +134,7 @@ namespace ionic_chat.Domain.Services
             var random = new Random();
             var code = random.Next(100000, 999999).ToString();
             var number = model.PhoneNumber.Replace(" ", "");
-            var user = await _userManager.Users.FirstOrDefaultAsync(user => user.PhoneNumber == number);
+            User user = await _userManager.Users.FirstOrDefaultAsync(user => user.PhoneNumber == number);
             if (!(user is null))
             {
                 throw new AppExсeption(StatusCodes.Status400BadRequest, ExceptionConstant.UserAlreadyExist);
@@ -127,7 +147,7 @@ namespace ionic_chat.Domain.Services
 
         public async Task<bool> CheckUserName(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            User user = await _userManager.FindByNameAsync(userName);
             if (user == null)
             {
                 return true;
@@ -140,7 +160,7 @@ namespace ionic_chat.Domain.Services
 
         public async Task<bool> CheckEmail(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            User user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
                 return true;

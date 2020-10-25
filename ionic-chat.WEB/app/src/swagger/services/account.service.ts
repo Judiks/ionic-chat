@@ -8,14 +8,15 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { UserResponse } from '../models/user-response';
-import { UserRequest } from '../models/user-request';
+import { RegisterRequest } from '../models/register-request';
+import { LoginResponse } from '../models/login-response';
 import { LoginRequest } from '../models/login-request';
 import { SendConfirmSMSRequest } from '../models/send-confirm-smsrequest';
 @Injectable({
   providedIn: 'root',
 })
 class AccountService extends __BaseService {
-  static readonly AccountCreateUserPath = '/api/Account/CreateUser';
+  static readonly AccountRegisterPath = '/api/Account/Register';
   static readonly AccountLoginPath = '/api/Account/Login';
   static readonly AccountSendRegisterSMSPath = '/api/Account/SendRegisterSMS';
   static readonly AccountCheckUserNamePath = '/api/Account/CheckUserName';
@@ -31,14 +32,14 @@ class AccountService extends __BaseService {
   /**
    * @param model undefined
    */
-  AccountCreateUserResponse(model: UserRequest): __Observable<__StrictHttpResponse<UserResponse>> {
+  AccountRegisterResponse(model: RegisterRequest): __Observable<__StrictHttpResponse<UserResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = model;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/api/Account/CreateUser`,
+      this.rootUrl + `/api/Account/Register`,
       __body,
       {
         headers: __headers,
@@ -56,8 +57,8 @@ class AccountService extends __BaseService {
   /**
    * @param model undefined
    */
-  AccountCreateUser(model: UserRequest): __Observable<UserResponse> {
-    return this.AccountCreateUserResponse(model).pipe(
+  AccountRegister(model: RegisterRequest): __Observable<UserResponse> {
+    return this.AccountRegisterResponse(model).pipe(
       __map(_r => _r.body as UserResponse)
     );
   }
@@ -65,7 +66,7 @@ class AccountService extends __BaseService {
   /**
    * @param model undefined
    */
-  AccountLoginResponse(model: LoginRequest): __Observable<__StrictHttpResponse<UserResponse>> {
+  AccountLoginResponse(model: LoginRequest): __Observable<__StrictHttpResponse<LoginResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -83,16 +84,16 @@ class AccountService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<UserResponse>;
+        return _r as __StrictHttpResponse<LoginResponse>;
       })
     );
   }
   /**
    * @param model undefined
    */
-  AccountLogin(model: LoginRequest): __Observable<UserResponse> {
+  AccountLogin(model: LoginRequest): __Observable<LoginResponse> {
     return this.AccountLoginResponse(model).pipe(
-      __map(_r => _r.body as UserResponse)
+      __map(_r => _r.body as LoginResponse)
     );
   }
 

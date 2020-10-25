@@ -13,8 +13,17 @@ using System.Threading.Tasks;
 
 namespace ionic_chat.Infrastructure.Extension
 {
-    public static class AuthExtension
+    public static class OptionsExtention
     {
+        public static void AddOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            IConfigurationSection smsOptons = configuration.GetSection("SMSOptions");
+            var securityKey = configuration.GetSection("AuthOption:JwtKey").Value;
+            services.Configure<EmailOptions>(configuration.GetSection("EmailOptions"));
+            services.Configure<SMSoptions>(smsOptons);
+            services.AddAuthOptions(configuration, securityKey);
+        }
+
         public static void AddAuthOptions(this IServiceCollection services, IConfiguration configuration, string key)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

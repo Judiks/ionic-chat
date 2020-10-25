@@ -1,4 +1,6 @@
-﻿using ionic_chat.Domain.Entities;
+﻿using ionic_chat.Domain.Constants;
+using ionic_chat.Domain.Entities;
+using ionic_chat.Domain.Exсeptions;
 using ionic_chat.Domain.HelperInterfaces;
 using ionic_chat.Infrastructure.Options;
 using Microsoft.Extensions.Options;

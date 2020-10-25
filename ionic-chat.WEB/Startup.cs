@@ -3,6 +3,7 @@ using ionic_chat.Domain.Constants;
 using ionic_chat.Infrastructure.Extension;
 using ionic_chat.Infrastructure.Helpers.Mapper;
 using ionic_chat.Infrastructure.Options;
+using ionic_chat.WEB.Middeleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,31 +25,24 @@ namespace ionic_chat
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext(connectionString);
+
+
+
             services.AddDependencies();
-            ConfigureAutomapper(services);
-            var smsOptons = Configuration.GetSection("SMSOptions");
-            services.Configure<SMSoptions>(smsOptons);
-            var securityKey = Configuration.GetSection("AuthOption:JwtKey").Value;
-            services.AddAuthOptions(Configuration, securityKey);
-            ConfigureCors(services, Configuration);
+            services.AddDbContext(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddOptions(Configuration);
             services.AddControllers();
-            services.AddSwaggerDocument(config =>
-            {
-                config.PostProcess = document =>
-                {
-                    document.Info.Version = "1.0.0v";
-                    document.Info.Title = "Dispatch";
-                    document.Info.Description = "ASP.NET Core 5.0 + ionic";
-                };
-            });
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+
+            ConfigureCors(services);
+            ConfigureAutomapper(services);
+            ConfigureCors(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             app.UseDeveloperExceptionPage();
 
             app.UseRouting();
@@ -56,6 +50,8 @@ namespace ionic_chat
             app.UseOpenApi();
             app.UseSwaggerUi3();
             app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseMiddleware<Middleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -64,7 +60,7 @@ namespace ionic_chat
 
         private void ConfigureCors(IServiceCollection services, IConfiguration configuration)
         {
-            string[] corsOptions = configuration.GetSection("Cors")
+            var corsOptions = configuration.GetSection("Cors")
                 .GetSection("Origins").GetChildren().ToArray().Select(c => c.Value).ToArray();
             services.AddCors(options =>
             {
@@ -87,6 +83,19 @@ namespace ionic_chat
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+        }
+
+        private static void ConfigureCors(IServiceCollection services)
+        {
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "1.0.0v";
+                    document.Info.Title = "Despatch";
+                    document.Info.Description = "ASP.NET Core 5.0 + ionic";
+                };
+            });
         }
     }
 }

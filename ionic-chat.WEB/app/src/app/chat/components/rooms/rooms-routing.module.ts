@@ -4,7 +4,7 @@ import { RoomContactsComponent } from './components/room-contacts/room-contacts.
 import { RoomCreatingComponent } from './components/room-creating/room-creating.component';
 import { RoomDashboardComponent } from './components/room-dashboard/room-dashboard.component';
 import { RoomComponent } from './components/room/room.component';
-import { RoomRegisterComponent } from './room-register.component';
+import { RoomRegisterComponent } from './rooms.component';
 
 
 
@@ -19,7 +19,7 @@ const routes: Routes = [
     component: RoomRegisterComponent,
     children: [
       {
-        path: 'room-dashboard',
+        path: 'dashboard',
         component: RoomDashboardComponent
       },
       {

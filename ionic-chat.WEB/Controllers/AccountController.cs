@@ -1,4 +1,5 @@
 ﻿using ionic_chat.Domain.Models.Account.Request;
+using ionic_chat.Domain.Models.Account.Response;
 using ionic_chat.Domain.Models.Default.Request;
 using ionic_chat.Domain.Models.Default.Response;
 using ionic_chat.Domain.Services.Interfaces;
@@ -22,20 +23,19 @@ namespace ionic_chat.WEB.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-        [Produces("application/json")]
-        [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> CreateUser(UserRequest model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterRequest model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var response = await _accountService.CreateUser(model);
+            UserResponse response = await _accountService.Register(model);
             return Ok(response);
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginRequest model)
         {
@@ -43,7 +43,7 @@ namespace ionic_chat.WEB.Controllers
             {
                 return BadRequest();
             }
-            var response = await _accountService.Login(model);
+            LoginResponse response = await _accountService.Login(model);
             return Ok(response);
         }
 
@@ -65,7 +65,7 @@ namespace ionic_chat.WEB.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CheckUserName(string model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model is null)
             {
                 return BadRequest();
             }

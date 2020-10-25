@@ -1,11 +1,12 @@
 import { PlatformLocation } from '@angular/common';
-import { ApplicationRef, Component } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Platform } from '@ionic/angular';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { PipeHelper } from 'src/app/shared/helpers/pipe-helper';
-import { SendConfirmSMSRequest, UserRequest } from 'src/swagger/models';
+import { RegisterRequest, SendConfirmSMSRequest, UserRequest, UserResponse } from 'src/swagger/models';
 import { AccountService } from 'src/swagger/services';
 
 declare let cordova: any;
@@ -18,7 +19,7 @@ declare let SMSRetriever: any;
 })
 
 export class RegisterComponent extends BaseComponent {
-  public user: UserRequest;
+  public user: RegisterRequest;
   public form: FormGroup;
   public pipeHelper = PipeHelper;
   public sendSmsModel: SendConfirmSMSRequest;
@@ -26,15 +27,14 @@ export class RegisterComponent extends BaseComponent {
   public smsCode = '';
   public codeSended = false;
   public isVerify = false;
-  public step1 = false;
-  public step2 = false;
+  public phoneRequestCompleat = false;
 
   constructor(
     private platform: Platform, private accountService: AccountService, public keyboard: Keyboard,
-    public AppR: ApplicationRef, public location: PlatformLocation
+    public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef
   ) {
-    super(keyboard, AppR, location);
-
+    super(keyboard, AppR, router, cd);
+    this.router.events.subscribe(e => e instanceof NavigationEnd && this.cd.detectChanges());
     this.form = new FormGroup({
       phoneNumber: new FormControl('', [
         Validators.required,
@@ -53,9 +53,11 @@ export class RegisterComponent extends BaseComponent {
       ]),
       password: new FormControl('', [
         Validators.required,
+        Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
       ]),
       confirmPassword: new FormControl('', [
         Validators.required,
+        Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
       ]),
     });
 
@@ -71,18 +73,22 @@ export class RegisterComponent extends BaseComponent {
       confirmPassword: '',
       email: '',
       role: 0
-    };
+    } as RegisterRequest;
 
-    this.onPlugins();
+    this.executePlugins();
   }
 
-  onPlugins() {
+  executePlugins() {
     this.platform.ready().then(() => {
       // get phone number
       cordova.plugins.PhoneData.getData((result: string) => {
         this.sendSmsModel.phoneNumber = PipeHelper.phoneMask(result, '');
+        this.user.phoneNumber = this.sendSmsModel.phoneNumber;
+        this.phoneRequestCompleat = true;
+        this.refresh();
       },
         (err) => {
+          this.phoneRequestCompleat = true;
           console.log(err);
         });
       // get app hash
@@ -105,6 +111,8 @@ export class RegisterComponent extends BaseComponent {
       SMSRetriever.startWatch((message) => {
         if (message.match(/\d{6}/g)) {
           this.smsCode = message.match(/\d{6}/)[0];
+          this.refresh();
+          document.getElementById('smsCode').focus();
         }
 
       },
@@ -118,30 +126,57 @@ export class RegisterComponent extends BaseComponent {
   }
 
   checkUserName() {
-    this.accountService.AccountCheckUserName(this.user.userName).subscribe(result => {
+    if (!this.user.userName) {
+      return;
+    }
+    const subscription = this.accountService.AccountCheckUserName(this.user.userName).subscribe((result: boolean) => {
       if (!result) {
         this.form.controls.userName.setErrors({ incorrect: true });
+      } else {
+        this.form.controls.userName.setErrors(null);
       }
-      return result;
+      this.refresh();
+      subscription.unsubscribe();
     });
-    return false;
   }
 
   checkEmail() {
-    this.accountService.AccountCheckUserEmail(this.user.userName).subscribe(result => {
+    if (!this.user.email) {
+      return;
+    }
+    const subscription = this.accountService.AccountCheckUserEmail(this.user.email).subscribe((result: boolean) => {
       if (!result) {
         this.form.controls.email.setErrors({ incorrect: true });
+      } else {
+        this.form.controls.email.setErrors(null);
       }
-      return result;
+      this.refresh();
+      subscription.unsubscribe();
     });
-    return false;
-  }
-
-  onNextStepClick() {
-
   }
 
   onCheckSmsCode() {
+    if (this.smsCode === this.code) {
+      this.isVerify = true;
+    } else {
+      this.form.controls.code.setErrors({ incorrect: true });
+    }
+    this.refresh();
+  }
 
+  public checkPassword() {
+    if (this.user.password === this.user.confirmPassword) {
+      this.form.controls.password.setErrors(null);
+      this.form.controls.confirmPassword.setErrors(null);
+    } else {
+      this.form.controls.password.setErrors({ incorrect: true });
+      this.form.controls.confirmPassword.setErrors({ incorrect: true });
+    }
+    this.refresh();
+  }
+  onSignUpClick() {
+    this.accountService.AccountRegister(this.user).subscribe((user: UserResponse) => {
+      this.redirectToLogin();
+    });
   }
 }

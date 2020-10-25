@@ -3,7 +3,7 @@
     public class ExceptionConstant
     {
         public static string InvalidRefresh = "invalid-refresh-token";
-        public static string FrienldyErrorMessage = "Something went wrong";
+        public static string FrienldyErrorMessage = "Something went wrong, coonect with our support. With ♥ despath team.";
         public static string WrongEmailOrPassword = "Wrong email or password";
         public static string UnauthorizeAccess = "Unauthorize Access";
         public static string TokenExpiredHeader = "token-expired";

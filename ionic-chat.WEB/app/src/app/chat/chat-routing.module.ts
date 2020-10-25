@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'room-register',
+        redirectTo: 'rooms',
         pathMatch: 'full',
     },
     {
@@ -13,8 +13,8 @@ const routes: Routes = [
         component: ChatComponent,
         children: [
             {
-                path: 'room-register',
-                loadChildren: () => import('./components/room-register/room-register.module').then(m => m.RoomRegisterModule)
+                path: 'rooms',
+                loadChildren: () => import('./components/rooms/rooms.module').then(m => m.RoomRegisterModule)
             }
         ]
     },

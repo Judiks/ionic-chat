@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
@@ -5,6 +6,9 @@ import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration
 import { AccountService } from './services/account.service';
 import { RoomService } from './services/room.service';
 
+/**
+ * Provider for all Api services, plus ApiConfiguration
+ */
 @NgModule({
   imports: [
     HttpClientModule
@@ -26,9 +30,9 @@ export class ApiModule {
       providers: [
         {
           provide: ApiConfiguration,
-          useValue: { rootUrl: customParams.rootUrl }
+          useValue: {rootUrl: customParams.rootUrl}
         }
       ]
-    };
+    }
   }
 }

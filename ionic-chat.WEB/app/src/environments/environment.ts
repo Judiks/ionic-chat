@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://192.168.0.110:57124',
+  apiURL: 'https://192.168.0.102:44363',
 };
 /*
  * For easier debugging in development mode, you can import the following file

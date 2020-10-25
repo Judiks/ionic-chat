@@ -4,6 +4,6 @@ export interface RoomRequest {
   creator?: UserRequest;
   creatorId?: string;
   description?: string;
-  img?: string;
+  img?: ArrayBuffer;
   name?: string;
 }

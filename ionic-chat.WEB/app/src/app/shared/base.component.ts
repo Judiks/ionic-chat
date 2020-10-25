@@ -1,18 +1,21 @@
+import { ApplicationRef, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { ApplicationRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { PlatformLocation } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-base-component',
     template: ``
 })
 
-export class BaseComponent implements OnInit, OnDestroy {
+export class BaseComponent{
 
-    public isKeyboardActive: boolean;
+    public isKeyboardActive = false;
 
-    constructor(public keyboard: Keyboard, public cdr: ApplicationRef, public location: PlatformLocation) {
+    constructor(
+        public keyboard: Keyboard, public cdr: ApplicationRef,
+        public router: Router, public cd: ChangeDetectorRef
+    ) {
+        this.router.events.subscribe(e => e instanceof NavigationEnd && this.refresh());
         keyboard.onKeyboardShow().subscribe(result => {
             this.isKeyboardActive = true;
             cdr.tick();
@@ -22,12 +25,23 @@ export class BaseComponent implements OnInit, OnDestroy {
             cdr.tick();
         });
     }
-
-    ngOnInit(): void {
-
+    // ------------- ACCOUNT -------------
+    // redirect to register page
+    public redirectToRegister() {
+        this.router.navigate(['account', 'register']);
+    }
+    // redirect to login page
+    public redirectToLogin() {
+        this.router.navigate(['account', 'login']);
     }
 
-    ngOnDestroy(): void {
-
+    // ------------- CHAT -------------
+    // redirect to rooms list
+    public redirectToRooms() {
+        this.router.navigate(['chat', 'rooms', 'dashboard']);
+    }
+    // refresh HTML directives
+    public refresh() {
+        this.cd.detectChanges();
     }
 }

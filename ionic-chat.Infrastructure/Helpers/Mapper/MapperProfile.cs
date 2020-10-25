@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ionic_chat.Domain.Entities;
+using ionic_chat.Domain.Models.Account.Response;
 using ionic_chat.Domain.Models.Default.Request;
 using ionic_chat.Domain.Models.Default.Response;
 
@@ -14,6 +15,8 @@ namespace ionic_chat.Infrastructure.Helpers.Mapper
             CreateMap<UserRequest, User>();
             // Response's
             CreateMap<Room, RoomResponse>();
+            CreateMap<User, UserResponse>();
+            CreateMap<User, LoginResponse>();
         }
     }
 }

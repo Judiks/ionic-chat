@@ -1,0 +1,13 @@
+﻿@model ionic_chat.Domain.Models.RazorModels.ConfirmEmailView;
+<div>
+    <p>
+        Dear, @Model.UserName
+    </p>
+    <p>
+        Please confirm your account by clicking this link:<a href="@Model.CallbackUrl"> confirm url </a>
+    </p>
+    <br />
+    <p>
+        Sent with ♥ from Despatch HQ
+    </p>
+</div>
