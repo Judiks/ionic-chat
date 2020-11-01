@@ -1,0 +1,23 @@
+<div>
+  <div *ngIf='contacts.length == 0'>
+    <ion-item>
+      <ion-button (click)='syncContacts()'>Sync device contact</ion-button>
+    </ion-item>
+  </div>
+  <div *ngIf='contacts.length > 0'>
+    <ion-content>
+      <ion-list>
+        <ion-item *ngFor="let contact of contacts">
+          <ion-label>{{contact.contactData.firstName}}</ion-label>
+        </ion-item>
+      </ion-list>
+    
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="getContactsData($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-content>
+  </div>
+</div>
