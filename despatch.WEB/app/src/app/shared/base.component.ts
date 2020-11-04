@@ -1,6 +1,7 @@
 import { ApplicationRef, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { NavController } from '@ionic/angular';
 
 @Component({
     selector: 'app-base-component',
@@ -13,18 +14,21 @@ export class BaseComponent {
 
     constructor(
         public keyboard: Keyboard, public cdr: ApplicationRef,
-        public router: Router, public cd: ChangeDetectorRef
-    ) {
-        this.router.events.subscribe(e => e instanceof NavigationEnd && this.refresh());
-        keyboard.onKeyboardShow().subscribe(result => {
-            this.isKeyboardActive = true;
-            cdr.tick();
-        });
-        keyboard.onKeyboardHide().subscribe(result => {
-            this.isKeyboardActive = false;
-            cdr.tick();
-        });
-    }
+        public router: Router, public cd: ChangeDetectorRef, public navController: NavController
+        ) {
+            this.router.events.subscribe(e => e instanceof NavigationEnd && this.refresh());
+            keyboard.onKeyboardShow().subscribe(result => {
+                this.isKeyboardActive = true;
+                cdr.tick();
+            });
+            keyboard.onKeyboardHide().subscribe(result => {
+                this.isKeyboardActive = false;
+                cdr.tick();
+            });
+            document.addEventListener('ionBackButton', (ev) => {
+                this.navController.pop();
+            });
+        }
     // ------------- ACCOUNT -------------
     // redirect to register page
     public redirectToRegister() {

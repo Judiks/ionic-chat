@@ -18,7 +18,7 @@ namespace despatch.Infrastructure.Extension
             var assemblyName = Assembly.GetAssembly(typeof(ApplicationDBContext)).GetName().Name;
             services.AddDbContext<ApplicationDBContext>(options =>
             {
-                options.UseSqlServer(connectionString, b => { b.MigrationsAssembly(assemblyName); b.EnableRetryOnFailure();  });
+                options.UseSqlServer(connectionString, b => { b.MigrationsAssembly(assemblyName); });
             }, ServiceLifetime.Scoped);
 
             services.AddIdentity<User, IdentityRole>(

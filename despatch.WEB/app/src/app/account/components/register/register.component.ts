@@ -2,7 +2,7 @@ import { ApplicationRef, ChangeDetectorRef, Component, Input } from '@angular/co
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { PipeHelper } from 'src/app/shared/helpers/pipe.helper';
 import { RegisterRequest, SendConfirmSMSRequest, UserResponse } from 'src/swagger/models';
@@ -30,9 +30,9 @@ export class RegisterComponent extends BaseComponent {
 
   constructor(
     private platform: Platform, private accountService: AuthService, public keyboard: Keyboard,
-    public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef
+    public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef, public navController: NavController
   ) {
-    super(keyboard, AppR, router, cd);
+    super(keyboard, AppR, router, cd, navController);
     this.router.events.subscribe(e => e instanceof NavigationEnd && this.cd.detectChanges());
     this.form = new FormGroup({
       phoneNumber: new FormControl('', [

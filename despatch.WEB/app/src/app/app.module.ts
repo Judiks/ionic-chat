@@ -32,7 +32,7 @@ import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+
     Keyboard,
     AndroidPermissions,
     {
@@ -44,7 +44,7 @@ import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

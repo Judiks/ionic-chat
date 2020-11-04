@@ -1,11 +1,13 @@
 using AutoMapper;
 using despatch.Domain.Constants;
+using despatch.Infrastructure;
 using despatch.Infrastructure.Extension;
 using despatch.Infrastructure.Helpers.Mapper;
 using despatch.Infrastructure.Options;
 using despatch.WEB.Middeleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +34,7 @@ namespace despatch
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddHttpContextAccessor();
 
-            ConfigureCors(services);
+            ConfigureSwagger(services);
             ConfigureAutomapper(services);
             ConfigureCors(services, Configuration);
         }
@@ -40,7 +42,7 @@ namespace despatch
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors("OriginPolicy");
+            app.UseCors("AllowAll");
             app.UseDeveloperExceptionPage();
             app.UseAuthentication();
             app.UseRouting();
@@ -86,7 +88,7 @@ namespace despatch
             services.AddSingleton(mapper);
         }
 
-        private static void ConfigureCors(IServiceCollection services)
+        private static void ConfigureSwagger(IServiceCollection services)
         {
             services.AddSwaggerDocument(config =>
             {

@@ -1,5 +1,5 @@
-import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { ApplicationRef, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { BaseComponent } from '../shared/base.component';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { AuthHelper } from '../shared/helpers/auth.helper';
 import { UserDto } from '../shared/dto/user.dto';
+import { MenuHelper } from '../shared/helpers/menu.helper';
 
 @Component({
   selector: 'app-chat',
@@ -17,22 +18,17 @@ export class ChatComponent extends BaseComponent implements OnInit {
 
   public selectedIndex = 0;
   public user: UserDto;
-  public appPages = [
-    {
-      title: 'Rooms',
-      url: '/room-register',
-      icon: 'mail'
-    }
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public navigate: any;
 
   constructor(
     public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef,
-    private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private authHelper: AuthHelper
+    private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private authHelper: AuthHelper,
+    private menuHelper: MenuHelper, public navController: NavController
   ) {
-    super(keyboard, AppR, router, cd);
+    super(keyboard, AppR, router, cd, navController);
     this.initializeApp();
     this.user = this.authHelper.getUser();
+    this.navigate = this.menuHelper.getPages();
   }
 
   initializeApp() {
@@ -45,7 +41,7 @@ export class ChatComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+      this.selectedIndex = this.navigate.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
   }
 }
