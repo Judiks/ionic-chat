@@ -1,11 +1,11 @@
 import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Contacts, IContactFindOptions } from '@ionic-native/contacts/ngx';
+import { ContactFindOptions } from '@ionic-native/contacts/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { NavController } from '@ionic/angular';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthHelper } from 'src/app/shared/helpers/auth.helper';
-import { ContactDataRequest, ContactResponse, GetContactDataRequest } from 'src/swagger/models';
+import { ContactRequest, ContactResponse, GetContactDataRequest } from 'src/swagger/models';
 import { ContactService } from 'src/swagger/services';
 
 @Component({
@@ -18,7 +18,7 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
   public contacts: ContactResponse[];
   constructor(
     public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef,
-    private contactService: ContactService, private contactsNative: Contacts, private authHelper: AuthHelper,
+    private contactService: ContactService, private authHelper: AuthHelper,
     public navController: NavController
   ) {
     super(keyboard, AppR, router, cd, navController);
@@ -34,7 +34,6 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
   }
 
   public getContactsData() {
-    debugger
     const request = {
       skipCount: this.contacts.length,
       userId: this.authHelper.getUser().id
@@ -48,7 +47,6 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
   }
 
   public syncContacts() {
-    debugger
     if (this.contacts.length > 0) {
       return;
     }
@@ -57,10 +55,24 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
       multiple: true,
       desiredFields: [],
       hasPhoneNumber: true
-    } as IContactFindOptions;
-    this.contactsNative.find(['*'], options).then((result: any) => {
-      console.log(result);
-    });
+    } as ContactFindOptions;
+    (navigator as any).contacts.find(['*'], this.onSuccess, err => console.log(err), options);
   }
 
+  onSuccess(contacts) {
+    console.log(contacts);
+    this.mapContacts(contacts);
+  }
+
+  mapContacts(contacts): Array<ContactRequest> {
+    const contactsRequest = new Array<ContactRequest>();
+    contacts.forEach(contact => {
+      const contactRequest = {
+        userId: this.authHelper.getUser().id
+      } as ContactRequest;
+      contactsRequest.push(contactRequest);
+    });
+
+    return contactsRequest;
+  }
 }

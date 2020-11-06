@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200703173929_update_user_and_room.cs" />
     <Compile Remove="Migrations\20200703173929_update_user_and_room.Designer.cs" />
+    <Compile Remove="Migrations\20201106214200_update-database-for-new-flow.cs" />
+    <Compile Remove="Migrations\20201106214200_update-database-for-new-flow.Designer.cs" />
+    <Compile Remove="Migrations\20201106215135_update-database-for-new-flow.cs" />
+    <Compile Remove="Migrations\20201106215135_update-database-for-new-flow.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -27,6 +27,7 @@ export class RoomsDashboardComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.getData();
   }
+
   public getData() {
     this.roomService.RoomGetUserRooms().subscribe((result: RoomResponse[]) => {
       this.rooms = result;

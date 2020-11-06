@@ -1,20 +1,19 @@
-import { NgModule, Injector } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { IonicModule } from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
+import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+
 
 @NgModule({
   declarations: [

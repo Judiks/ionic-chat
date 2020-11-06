@@ -14,8 +14,8 @@ import { RoomResponse } from '../models/room-response';
   providedIn: 'root',
 })
 class RoomService extends __BaseService {
-  static readonly RoomCreatePath = '/api/Room';
-  static readonly RoomGetUserRoomsPath = '/api/Room';
+  static readonly RoomCreatePath = '/api/Room/Create';
+  static readonly RoomGetUserRoomsPath = '/api/Room/GetUserRooms';
 
   constructor(
     config: __Configuration,
@@ -34,7 +34,7 @@ class RoomService extends __BaseService {
     __body = model;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/api/Room`,
+      this.rootUrl + `/api/Room/Create`,
       __body,
       {
         headers: __headers,
@@ -63,7 +63,7 @@ class RoomService extends __BaseService {
     let __body: any = null;
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/Room`,
+      this.rootUrl + `/api/Room/GetUserRooms`,
       __body,
       {
         headers: __headers,

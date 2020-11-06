@@ -49,9 +49,9 @@ export class PermissionHelper {
         });
     }
 
-    private requestPermission(permission: string[], code: number) {
+    private requestPermission(permissions: string[], code: number) {
         this.platform.ready().then(() => {
-            cordova.plugins.PermissionProvider.requestPermission(permission, code, (result: string) => {
+            cordova.plugins.PermissionProvider.requestPermission(permissions, code, (result: string) => {
                 console.log('Permission request was sended');
             },
                 (err) => {

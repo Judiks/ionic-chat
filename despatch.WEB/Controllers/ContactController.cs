@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace despatch.WEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ContactController : Controller
     {
@@ -29,7 +29,7 @@ namespace despatch.WEB.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(typeof(List<ContactResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetContactData(GetContactDataRequest model)
         {

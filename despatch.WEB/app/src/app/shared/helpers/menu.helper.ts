@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
 export class MenuHelper {
     private appPages = [{
         title: 'Rooms',
-        url: '/rooms',
+        url: '/chat/rooms/dashboard',
         icon: 'mail'
       },
       {
         title: 'Contacts',
-        url: '/chat/contacts',
-        icon: 'people-outline'
+        url: '/chat/contacts/dashboard',
+        icon: 'people'
       }];
 
       public getPages() {

@@ -1,8 +1,16 @@
-<div>
-  <div >
-    <ion-item>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="app-header">Contacts</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf='contacts.length == 0' class="h-100 d-flex">
+    <div class="text-center justify-content-center m-auto"> 
+      <ion-img class=' m-auto w-75 h-75 not-have-img' src='assets/img/icons-contacts.png'></ion-img>
+      <ion-label class="luckiest-guy-font not-have-label">You may not have contacts yet.</ion-label>
+      <p class='not-have-p'>Do you want to sync them from your device?</p>
       <ion-button (click)='syncContacts()'>Sync device contact</ion-button>
-    </ion-item>
+    </div>
   </div>
   <div *ngIf='contacts.length > 0'>
     <ion-content>
@@ -20,4 +28,4 @@
       </ion-infinite-scroll>
     </ion-content>
   </div>
-</div>
+</ion-content>

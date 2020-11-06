@@ -14,7 +14,7 @@ const routes: Routes = [
         children: [
             {
                 path: 'rooms',
-                loadChildren: './components/rooms/rooms.module#RoomsModule'
+                loadChildren: () => import('./components/rooms/rooms.module').then(m => m.RoomsModule)
             },
             {
                 path: 'contacts',

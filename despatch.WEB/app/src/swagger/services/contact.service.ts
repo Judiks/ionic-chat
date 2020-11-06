@@ -14,8 +14,8 @@ import { GetContactDataRequest } from '../models/get-contact-data-request';
   providedIn: 'root',
 })
 class ContactService extends __BaseService {
-  static readonly ContactSaveAllFromNativePath = '/api/Contact';
-  static readonly ContactGetContactDataPath = '/api/Contact';
+  static readonly ContactSaveAllFromNativePath = '/api/Contact/SaveAllFromNative';
+  static readonly ContactGetContactDataPath = '/api/Contact/GetContactData';
 
   constructor(
     config: __Configuration,
@@ -34,7 +34,7 @@ class ContactService extends __BaseService {
     __body = model;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/api/Contact`,
+      this.rootUrl + `/api/Contact/SaveAllFromNative`,
       __body,
       {
         headers: __headers,
@@ -67,8 +67,8 @@ class ContactService extends __BaseService {
     let __body: any = null;
     __body = model;
     let req = new HttpRequest<any>(
-      'GET',
-      this.rootUrl + `/api/Contact`,
+      'POST',
+      this.rootUrl + `/api/Contact/GetContactData`,
       __body,
       {
         headers: __headers,

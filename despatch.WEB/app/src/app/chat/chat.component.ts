@@ -1,12 +1,12 @@
-import { ApplicationRef, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { BaseComponent } from '../shared/base.component';
+import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { AuthHelper } from '../shared/helpers/auth.helper';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { NavController, Platform } from '@ionic/angular';
+import { BaseComponent } from '../shared/base.component';
 import { UserDto } from '../shared/dto/user.dto';
+import { AuthHelper } from '../shared/helpers/auth.helper';
 import { MenuHelper } from '../shared/helpers/menu.helper';
 
 @Component({
@@ -39,9 +39,9 @@ export class ChatComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    const path = window.location.pathname.split('folder/')[1];
+    const path = window.location.pathname;
     if (path !== undefined) {
-      this.selectedIndex = this.navigate.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+      this.selectedIndex = this.navigate.findIndex(page => page.url === path.toLowerCase());
     }
   }
 }

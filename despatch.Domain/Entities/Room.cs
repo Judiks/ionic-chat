@@ -19,7 +19,7 @@ namespace despatch.Domain.Entities
 
         public User Creator { get; set; }
         [ForeignKey("RoomId")]
-        public virtual ICollection<UserRoom> UserRooms { get; set; }
+        public virtual ICollection<UserRooms> UserRooms { get; set; }
         [ForeignKey("LastMessageId")]
         public Message LastMessage { get; set; }
     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace despatch.WEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RoomController : Controller
     {
