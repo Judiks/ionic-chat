@@ -1,4 +1,5 @@
 ﻿using despatch.Domain.Models.Contacts.Request;
+using despatch.Domain.Models.Contacts.Response;
 using despatch.Domain.Models.Default.Request;
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Models.Room.Request;
@@ -22,10 +23,10 @@ namespace despatch.WEB.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(List<ContactResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> SaveAllFromNative(List<ContactRequest> model)
+        [ProducesResponseType(typeof(List<SyncContactResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SaveAllFromNative(List<SyncContactRequest> model)
         {
-            List<ContactResponse> response = await _contactService.SaveAllFromNative(model);
+            List<SyncContactResponse> response = await _contactService.SyncAllFromNative(model);
             return Ok(response);
         }
 

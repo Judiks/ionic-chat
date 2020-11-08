@@ -12,13 +12,13 @@
         </ion-title>
       </div>
 
-      <div *ngIf='!codeSended && phoneRequestCompleat'>
+      <div *ngIf='!codeSended'>
         <ion-item class='mt-2'>
           <ion-label [ngClass]='{"app-small-text-keyboard-active":isKeyboardActive}' class='app-small-text'
             position="floating">Phone Number</ion-label>
           <ion-input [ngModel]='sendSmsModel.phoneNumber' class='mask-phone' formControlName='phoneNumber' type='text'
             (input)='$event.target.value = pipeHelper.phoneMask($event.target.value, sendSmsModel.phoneNumber);
-           sendSmsModel.phoneNumber = pipeHelper.phoneMask($event.target.value, sendSmsModel.phoneNumber); refresh()'>
+           sendSmsModel.phoneNumber = pipeHelper.phoneMask($event.target.value, sendSmsModel.phoneNumber);'>
           </ion-input>
         </ion-item>
         <div lines='none' class='mt-2 d-flex justify-content-end'>

@@ -25,7 +25,7 @@ export class ChatComponent extends BaseComponent implements OnInit {
     private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar, private authHelper: AuthHelper,
     private menuHelper: MenuHelper, public navController: NavController
   ) {
-    super(keyboard, AppR, router, cd, navController);
+    super(keyboard, AppR, router, navController);
     this.initializeApp();
     this.user = this.authHelper.getUser();
     this.navigate = this.menuHelper.getPages();

@@ -1,5 +1,5 @@
-﻿using despatch.Domain.Models.Account.Request;
-using despatch.Domain.Models.Account.Response;
+﻿using despatch.Domain.Models.Auth.Request;
+using despatch.Domain.Models.Auth.Response;
 using despatch.Domain.Models.Default.Request;
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Services.Interfaces;
@@ -22,7 +22,7 @@ namespace despatch.WEB.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Register(RegisterRequest model)
         {
             if (!ModelState.IsValid)

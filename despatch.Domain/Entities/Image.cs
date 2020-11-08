@@ -1,6 +1,7 @@
 ﻿using despatch.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace despatch.Domain.Entities
@@ -9,8 +10,13 @@ namespace despatch.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int? DeviceUrlId { get; set; }
-        public int? SourseUrlId { get; set; }
         public ImageType Type { get; set; }
+        public bool IsMain { get; set; }
+        public string DeviceUrlId { get; set; }
+        public string SourseUrlId { get; set; }
+        [ForeignKey("DeviceUrlId")]
+        public virtual Url DeviceUrl { get; set; }
+        [ForeignKey("SourseUrlId")]
+        public virtual Url SourceUrl { get; set; }
     }
 }

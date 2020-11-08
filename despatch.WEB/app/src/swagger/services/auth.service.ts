@@ -7,7 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
-import { UserResponse } from '../models/user-response';
+import { RegisterResponse } from '../models/register-response';
 import { RegisterRequest } from '../models/register-request';
 import { LoginResponse } from '../models/login-response';
 import { LoginRequest } from '../models/login-request';
@@ -36,7 +36,7 @@ class AuthService extends __BaseService {
   /**
    * @param model undefined
    */
-  AuthRegisterResponse(model: RegisterRequest): __Observable<__StrictHttpResponse<UserResponse>> {
+  AuthRegisterResponse(model: RegisterRequest): __Observable<__StrictHttpResponse<RegisterResponse>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -54,16 +54,16 @@ class AuthService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<UserResponse>;
+        return _r as __StrictHttpResponse<RegisterResponse>;
       })
     );
   }
   /**
    * @param model undefined
    */
-  AuthRegister(model: RegisterRequest): __Observable<UserResponse> {
+  AuthRegister(model: RegisterRequest): __Observable<RegisterResponse> {
     return this.AuthRegisterResponse(model).pipe(
-      __map(_r => _r.body as UserResponse)
+      __map(_r => _r.body as RegisterResponse)
     );
   }
 

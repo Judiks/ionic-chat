@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content>
   <div *ngIf='contacts.length == 0' class="h-100 d-flex">
-    <div class="text-center justify-content-center m-auto"> 
+    <div class="text-center justify-content-center m-auto">
       <ion-img class=' m-auto w-75 h-75 not-have-img' src='assets/img/icons-contacts.png'></ion-img>
       <ion-label class="luckiest-guy-font not-have-label">You may not have contacts yet.</ion-label>
       <p class='not-have-p'>Do you want to sync them from your device?</p>
@@ -13,19 +13,35 @@
     </div>
   </div>
   <div *ngIf='contacts.length > 0'>
-    <ion-content>
-      <ion-list>
-        <ion-item *ngFor="let contact of contacts">
-          <ion-label>{{contact.contactData.firstName}}</ion-label>
-        </ion-item>
-      </ion-list>
-    
-      <ion-infinite-scroll threshold="100px" (ionInfinite)="getContactsData($event)">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data...">
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    </ion-content>
+    <div *ngFor="let contact of contacts; index as i">
+      <div class="contact-item">
+        <div class='d-flex'>
+          <div class='d-flex w-25 contact-container-img'>
+            <ion-img *ngIf='contact.contactData?.images[0]?.image?.deviceUrl.path' class="w-75 h-75 m-auto contact-img"
+              [src]='sanitizeImage(contact.contactData?.images[0]?.image?.deviceUrl.path)'></ion-img>
+            <div *ngIf='!contact.contactData?.images[0]?.image?.deviceUrl.path'
+              class="w-75 h-75 m-auto contact-container-img">
+              <div class="d-flex w-100 h-100 contact-img" [ngStyle]="{'background-color': colors[i] }">
+                <div class='contact-phonetic'>
+                  {{ getPhonetic(contact) }}
+                </div>
+              </div>  
+            </div>
+          </div>
+          <div class='w-75 contact-data'>
+            <div class='contact-name'>
+              {{contact.contactData.displayName}}
+            </div>
+            <div class='contact-last-message'>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getContactsData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

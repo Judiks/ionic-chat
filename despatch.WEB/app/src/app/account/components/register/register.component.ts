@@ -1,8 +1,8 @@
-import { ApplicationRef, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { NavController, Platform } from '@ionic/angular';
+import { IonInput, NavController, Platform } from '@ionic/angular';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { PipeHelper } from 'src/app/shared/helpers/pipe.helper';
 import { RegisterRequest, SendConfirmSMSRequest, UserResponse } from 'src/swagger/models';
@@ -18,22 +18,35 @@ declare let SMSRetriever: any;
 })
 
 export class RegisterComponent extends BaseComponent {
+
   public user: RegisterRequest;
   public form: FormGroup;
   public pipeHelper = PipeHelper;
   public sendSmsModel: SendConfirmSMSRequest;
-  public code = '';
-  public smsCode = '';
-  public codeSended = false;
-  public isVerify = false;
-  public phoneRequestCompleat = false;
+  public code: string;
+  public smsCode: string;
+  public codeSended: boolean;
+  public isVerify: boolean;
+  public phoneRequestCompleat: boolean;
 
   constructor(
     private platform: Platform, private accountService: AuthService, public keyboard: Keyboard,
-    public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef, public navController: NavController
+    public AppR: ApplicationRef, public router: Router, public navController: NavController,
+    public cd: ChangeDetectorRef
   ) {
-    super(keyboard, AppR, router, cd, navController);
-    this.router.events.subscribe(e => e instanceof NavigationEnd && this.cd.detectChanges());
+    super(keyboard, AppR, router, navController);
+    this.initData();
+    this.executePlugins();
+  }
+
+  initData() {
+    this.codeSended = false;
+    this.isVerify = false;
+    this.phoneRequestCompleat = false;
+    this.code = '';
+    this.smsCode = '';
+
+
     this.form = new FormGroup({
       phoneNumber: new FormControl('', [
         Validators.required,
@@ -73,8 +86,6 @@ export class RegisterComponent extends BaseComponent {
       email: '',
       role: 0
     } as RegisterRequest;
-
-    this.executePlugins();
   }
 
   executePlugins() {
@@ -83,7 +94,7 @@ export class RegisterComponent extends BaseComponent {
       cordova.plugins.PhoneData.getData((result: string) => {
         this.sendSmsModel.phoneNumber = PipeHelper.phoneMask(result, '');
         this.user.phoneNumber = this.sendSmsModel.phoneNumber;
-        this.phoneRequestCompleat = true;
+        this.form.controls.phoneNumber.setValue(this.sendSmsModel.phoneNumber);
         this.refresh();
       },
         (err) => {
@@ -110,8 +121,8 @@ export class RegisterComponent extends BaseComponent {
       SMSRetriever.startWatch((message) => {
         if (message.match(/\d{6}/g)) {
           this.smsCode = message.match(/\d{6}/)[0];
+          this.form.controls.code.setValue(this.smsCode);
           this.refresh();
-          document.getElementById('smsCode').focus();
         }
 
       },
@@ -177,5 +188,10 @@ export class RegisterComponent extends BaseComponent {
     this.accountService.AuthRegister(this.user).subscribe((user: UserResponse) => {
       this.redirectToLogin();
     });
+  }
+
+  // refresh HTML directives
+  public refresh() {
+    this.cd.detectChanges();
   }
 }

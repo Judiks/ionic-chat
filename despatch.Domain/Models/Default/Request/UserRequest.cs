@@ -1,14 +1,25 @@
-﻿using despatch.Domain.Models.Enums;
+﻿
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 
 namespace despatch.Domain.Models.Default.Request
 {
-    public class UserRequest
+    public class UserRequest : IdentityUser
     {
-        public string Id { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public RoleModel Role { get; set; }
+        public DateTime CreationDate { get; set; }
+
+        public string CityId { get; set; }
+        public string CountryId { get; set; }
+
+        public virtual CityRequest City { get; set; }
+        public virtual CountryRequest Country { get; set; }
+
+        public ICollection<UserAddressesRequest> Addresses { get; set; }
+        public ICollection<UserOrganizationsRequest> Organizations { get; set; }
+        public ICollection<UserImagesRequest> Images { get; set; }
+        public ICollection<UserPhoneNumbersRequest> PhoneNumbers { get; set; }
+        public ICollection<UserUrlsRequest> Urls { get; set; }
+
     }
 }

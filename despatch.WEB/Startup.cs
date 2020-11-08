@@ -30,7 +30,9 @@ namespace despatch
             services.AddDependencies();
             services.AddDbContext(Configuration.GetConnectionString("DefaultConnection"));
             services.AddOptions(Configuration);
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddHttpContextAccessor();
 

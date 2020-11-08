@@ -10,11 +10,15 @@ namespace despatch.Domain.Entities
         public DateTime CreationDate { get; set; }
         public string CityId { get; set; }
         public string CountryId { get; set; }
-        ICollection<UserAddresses> Addresses { get; set; }
-        ICollection<UserOrganizations> Organizations { get; set; }
-        ICollection<UserImages> Images { get; set; }
-        ICollection<UserPhoneNumbers> PhoneNumbers { get; set; }
-        ICollection<UserUrls> Urls { get; set; }
+
+        public virtual City City { get; set; }
+        public virtual Country Country { get; set; }
+
+        public ICollection<UserAddresses> Addresses { get; set; }
+        public ICollection<UserOrganizations> Organizations { get; set; }
+        public ICollection<UserImages> Images { get; set; }
+        public ICollection<UserPhoneNumbers> PhoneNumbers { get; set; }
+        public ICollection<UserUrls> Urls { get; set; }
         public User()
         {
             Id = Guid.NewGuid().ToString();

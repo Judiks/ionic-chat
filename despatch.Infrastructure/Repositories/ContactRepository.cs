@@ -19,7 +19,29 @@ namespace despatch.Infrastructure.Repositories
 
         public async Task<List<Contact>> GetContactData(GetContactDataRequest model)
         {
-            List<Contact> contacts = await _dbSet.Skip(model.SkipCount).Take(10).Where(c => c.UserId == model.UserId).ToListAsync();
+            List<Contact> contacts = await _dbSet.Skip(model.SkipCount).Take(25)
+                .Where(c => c.UserId == model.UserId)
+                .Include(c => c.ContactData)
+                    .ThenInclude(cd => cd.Addresses)
+                        .ThenInclude(a => a.Address)
+                .Include(c => c.ContactData)
+                    .ThenInclude(cd => cd.Images)
+                        .ThenInclude(a => a.Image)
+                            .ThenInclude(du => du.DeviceUrl)
+                .Include(c => c.ContactData)
+                    .ThenInclude(cd => cd.Images)
+                        .ThenInclude(a => a.Image)
+                            .ThenInclude(du => du.SourceUrl)
+                .Include(c => c.ContactData)
+                    .ThenInclude(cd => cd.Organizations)
+                        .ThenInclude(a => a.Organization)
+                .Include(c => c.ContactData)
+                    .ThenInclude(cd => cd.Urls)
+                        .ThenInclude(cd => cd.Url)
+                .Include(c => c.ContactData)
+                    .ThenInclude(cd => cd.PhoneNumbers)
+                        .ThenInclude(a => a.PhoneNumber)
+                    .ToListAsync();
             return contacts;
         }
     }

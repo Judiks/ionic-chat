@@ -20,18 +20,6 @@ export class AppComponent {
       permissionHelper.checkPermissionMethod(this.permission.PERMISSION.READ_SMS);
       permissionHelper.checkPermissionMethod(this.permission.PERMISSION.RECEIVE_SMS);
       permissionHelper.checkPermissionMethod('android.permission.READ_PHONE_NUMBERS');
-      (navigator as any).contacts.find(['*'], this.onSuccess, err => console.log(err), options);
     });
-    const options = {
-      filter: '',
-      multiple: true,
-      desiredFields: [],
-      hasPhoneNumber: true
-    };
-
-  }
-
-  onSuccess(contacts) {
-    console.log(contacts);
   }
 }

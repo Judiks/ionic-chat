@@ -3,8 +3,8 @@ using despatch.Domain.Constants;
 using despatch.Domain.Entities;
 using despatch.Domain.Exсeptions;
 using despatch.Domain.HelperInterfaces;
-using despatch.Domain.Models.Account.Request;
-using despatch.Domain.Models.Account.Response;
+using despatch.Domain.Models.Auth.Request;
+using despatch.Domain.Models.Auth.Response;
 using despatch.Domain.Models.Default.Request;
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Models.Enums;
@@ -81,7 +81,7 @@ namespace despatch.Domain.Services
             LoginResponse response = _mapper.Map<User, LoginResponse>(user);
             response.AuthToken = authToken;
             response.RefreshToken = refreshToken;
-            response.Role = Enum.Parse<RoleModel>(role);
+            response.Role = Enum.Parse<Role>(role);
             return response;
 
         }
@@ -106,7 +106,7 @@ namespace despatch.Domain.Services
             }
         }
 
-        public async Task<UserResponse> Register(RegisterRequest model)
+        public async Task<RegisterResponse> Register(RegisterRequest model)
         {
             await IsUserExist(model);
             User user = _mapper.Map<UserRequest, User>(model);
@@ -117,7 +117,7 @@ namespace despatch.Domain.Services
                 throw new AppExсeption(StatusCodes.Status400BadRequest, status.Errors.FirstOrDefault().ToString());
             }
             await _userManager.AddToRoleAsync(user, model.Role.ToString());
-            UserResponse result = _mapper.Map<User, UserResponse>(user);
+            RegisterResponse result = _mapper.Map<User, RegisterResponse>(user);
             result.Role = model.Role;
 
             var confirmEmail = new ConfirmEmailView();
@@ -162,6 +162,7 @@ namespace despatch.Domain.Services
             RefreshTokenResponse response = _mapper.Map<User, RefreshTokenResponse>(user);
             response.RefreshToken = refreshToken;
             response.AuthToken = authToken;
+            response.Role = (Role)Enum.Parse(typeof(Role), role);
             return response;
         }
 

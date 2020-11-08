@@ -7,8 +7,9 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { SyncContactResponse } from '../models/sync-contact-response';
+import { SyncContactRequest } from '../models/sync-contact-request';
 import { ContactResponse } from '../models/contact-response';
-import { ContactRequest } from '../models/contact-request';
 import { GetContactDataRequest } from '../models/get-contact-data-request';
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ class ContactService extends __BaseService {
   /**
    * @param model undefined
    */
-  ContactSaveAllFromNativeResponse(model: Array<ContactRequest>): __Observable<__StrictHttpResponse<Array<ContactResponse>>> {
+  ContactSaveAllFromNativeResponse(model: Array<SyncContactRequest>): __Observable<__StrictHttpResponse<Array<SyncContactResponse>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -45,16 +46,16 @@ class ContactService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<ContactResponse>>;
+        return _r as __StrictHttpResponse<Array<SyncContactResponse>>;
       })
     );
   }
   /**
    * @param model undefined
    */
-  ContactSaveAllFromNative(model: Array<ContactRequest>): __Observable<Array<ContactResponse>> {
+  ContactSaveAllFromNative(model: Array<SyncContactRequest>): __Observable<Array<SyncContactResponse>> {
     return this.ContactSaveAllFromNativeResponse(model).pipe(
-      __map(_r => _r.body as Array<ContactResponse>)
+      __map(_r => _r.body as Array<SyncContactResponse>)
     );
   }
 

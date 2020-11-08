@@ -14,21 +14,20 @@ export class BaseComponent {
 
     constructor(
         public keyboard: Keyboard, public cdr: ApplicationRef,
-        public router: Router, public cd: ChangeDetectorRef, public navController: NavController
-        ) {
-            this.router.events.subscribe(e => e instanceof NavigationEnd && this.refresh());
-            keyboard.onKeyboardShow().subscribe(result => {
-                this.isKeyboardActive = true;
-                cdr.tick();
-            });
-            keyboard.onKeyboardHide().subscribe(result => {
-                this.isKeyboardActive = false;
-                cdr.tick();
-            });
-            document.addEventListener('ionBackButton', (ev) => {
-                this.navController.pop();
-            });
-        }
+        public router: Router, public navController: NavController
+    ) {
+        keyboard.onKeyboardShow().subscribe(result => {
+            this.isKeyboardActive = true;
+            cdr.tick();
+        });
+        keyboard.onKeyboardHide().subscribe(result => {
+            this.isKeyboardActive = false;
+            cdr.tick();
+        });
+        document.addEventListener('ionBackButton', (ev) => {
+            this.navController.pop();
+        });
+    }
     // ------------- ACCOUNT -------------
     // redirect to register page
     public redirectToRegister() {
@@ -59,8 +58,9 @@ export class BaseComponent {
         this.router.navigate(['chat', 'contacts', 'dashboard']);
     }
 
-    // refresh HTML directives
-    public refresh() {
-        this.cd.detectChanges();
+    public getRandomColor(): string  {
+        const colors = ['#3880ff', '#3171e0', '#4c8dff', '#3dc2ff', '#36abe0', '#50c8ff', '#5260ff', '#4854e0', '#6370ff'];
+        const random = Math.floor(Math.random() * 9);
+        return colors[random];
     }
 }

@@ -185,6 +185,34 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("Cities");
                 });
 
+            modelBuilder.Entity("despatch.Domain.Entities.Contact", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContactDataId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactDataId");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Contacts");
+                });
+
             modelBuilder.Entity("despatch.Domain.Entities.ContactData", b =>
                 {
                     b.Property<string>("Id")
@@ -370,19 +398,31 @@ namespace despatch.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DeviceUrlId")
-                        .HasColumnType("int");
+                    b.Property<string>("DeviceUrlId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SourseUrlId")
-                        .HasColumnType("int");
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SourseUrlId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DeviceUrlId");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("SourseUrlId");
 
                     b.ToTable("Images");
                 });
@@ -463,9 +503,6 @@ namespace despatch.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Img")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("LastMessageId")
                         .HasColumnType("nvarchar(450)");
 
@@ -487,6 +524,29 @@ namespace despatch.Infrastructure.Migrations
                         .HasFilter("[LastMessageId] IS NOT NULL");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("despatch.Domain.Entities.RoomImages", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomImages");
                 });
 
             modelBuilder.Entity("despatch.Domain.Entities.Url", b =>
@@ -517,14 +577,14 @@ namespace despatch.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CityId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CountryId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -570,6 +630,10 @@ namespace despatch.Infrastructure.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CountryId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -777,6 +841,21 @@ namespace despatch.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("despatch.Domain.Entities.Contact", b =>
+                {
+                    b.HasOne("despatch.Domain.Entities.ContactData", "ContactData")
+                        .WithMany()
+                        .HasForeignKey("ContactDataId");
+
+                    b.HasOne("despatch.Domain.Entities.User", "Friend")
+                        .WithMany()
+                        .HasForeignKey("FriendId");
+
+                    b.HasOne("despatch.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("despatch.Domain.Entities.ContactDataAddresses", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Address", "Address")
@@ -832,6 +911,21 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("UrlId");
                 });
 
+            modelBuilder.Entity("despatch.Domain.Entities.Image", b =>
+                {
+                    b.HasOne("despatch.Domain.Entities.Url", "DeviceUrl")
+                        .WithMany()
+                        .HasForeignKey("DeviceUrlId");
+
+                    b.HasOne("despatch.Domain.Entities.Room", null)
+                        .WithMany("Images")
+                        .HasForeignKey("RoomId");
+
+                    b.HasOne("despatch.Domain.Entities.Url", "SourceUrl")
+                        .WithMany()
+                        .HasForeignKey("SourseUrlId");
+                });
+
             modelBuilder.Entity("despatch.Domain.Entities.Message", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.User", "User")
@@ -848,6 +942,28 @@ namespace despatch.Infrastructure.Migrations
                     b.HasOne("despatch.Domain.Entities.Message", "LastMessage")
                         .WithOne("Room")
                         .HasForeignKey("despatch.Domain.Entities.Room", "LastMessageId");
+                });
+
+            modelBuilder.Entity("despatch.Domain.Entities.RoomImages", b =>
+                {
+                    b.HasOne("despatch.Domain.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("despatch.Domain.Entities.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+                });
+
+            modelBuilder.Entity("despatch.Domain.Entities.User", b =>
+                {
+                    b.HasOne("despatch.Domain.Entities.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("despatch.Domain.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
                 });
 
             modelBuilder.Entity("despatch.Domain.Entities.UserAddresses", b =>

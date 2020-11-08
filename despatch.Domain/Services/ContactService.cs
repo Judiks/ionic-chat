@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using despatch.Domain.Entities;
 using despatch.Domain.Models.Contacts.Request;
+using despatch.Domain.Models.Contacts.Response;
 using despatch.Domain.Models.Default.Request;
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.RepositorieInterfaces;
@@ -37,11 +38,11 @@ namespace despatch.Domain.Services
             return response;
         }
 
-        public async Task<List<ContactResponse>> SaveAllFromNative(List<ContactRequest> model)
+        public async Task<List<SyncContactResponse>> SyncAllFromNative(List<SyncContactRequest> model)
         {
-            List<Contact> contacts = _mapper.Map<List<ContactRequest>, List<Contact>>(model);
+            List<Contact> contacts = _mapper.Map<List<SyncContactRequest>, List<Contact>>(model);
             await _contactRepository.AddRange(contacts);
-            List<ContactResponse> responses = _mapper.Map<List<Contact>, List<ContactResponse>>(contacts);
+            List<SyncContactResponse> responses = _mapper.Map<List<Contact>, List<SyncContactResponse>>(contacts);
             return responses;
         }
     }

@@ -18,6 +18,7 @@ namespace despatch.Infrastructure
         public DbSet<Address> Addresses { get; set; }
         public DbSet<City> Cities { get; set; }
 
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<ContactData> ContactDatas { get; set; }
         public DbSet<ContactDataAddresses> ContactDataAddresses { get; set; }
         public DbSet<ContactDataImages> ContactDataImages { get; set; }
@@ -30,8 +31,12 @@ namespace despatch.Infrastructure
         public DbSet<Message> Messages { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomImages> RoomImages { get; set; }
+
         public DbSet<Url> Urls { get; set; }
+
         public DbSet<UserAddresses> UserAddresses { get; set; }
         public DbSet<UserImages> UserImages { get; set; }
         public DbSet<UserOrganizations> UserOrganizations { get; set; }

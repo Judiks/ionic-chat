@@ -17,7 +17,7 @@ export class RoomsContactsComponent extends BaseComponent implements OnInit {
     public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef,
     private contactService: ContactService, public navController: NavController
   ) {
-    super(keyboard, AppR, router, cd, navController);
+    super(keyboard, AppR, router, navController);
   }
 
   ngOnInit() {

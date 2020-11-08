@@ -44,7 +44,7 @@ namespace despatch.Infrastructure.Extension
 
         public static void InitRoles(ApplicationDBContext context)
         {
-            var roles = Enum.GetNames(typeof(RoleModel));
+            var roles = Enum.GetNames(typeof(Role));
             var dbRoles = context.Roles.ToList();
             roles = roles.Where(r => !dbRoles.Any(r2 => r2.Name.Equals(r))).ToArray();
 
@@ -55,7 +55,7 @@ namespace despatch.Infrastructure.Extension
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = role,
-                    NormalizedName = role.ToUpper().Replace(" ", "_")
+                    NormalizedName = role.ToUpper().Replace(" ", "")
                 };
                 data.Add(roleData);
             }

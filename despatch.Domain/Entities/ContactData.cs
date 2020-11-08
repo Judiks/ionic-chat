@@ -18,10 +18,10 @@ namespace despatch.Domain.Entities
         public string Note { get; set; }
         public DateTime? BirthdayDate { get; set; }
         public string Email { get; set; } 
-        ICollection<ContactDataAddresses> Addresses { get; set; }
-        ICollection<ContactDataOrganizations> Organizations { get; set; }
-        ICollection<ContactDataImages> Images { get; set; }
-        ICollection<ContactDataPhoneNumbers> PhoneNumbers { get; set; }
-        ICollection<ContactDataUrls> Urls { get; set; }
+        public virtual ICollection<ContactDataAddresses> Addresses { get; set; }
+        public virtual ICollection<ContactDataOrganizations> Organizations { get; set; }
+        public virtual ICollection<ContactDataImages> Images { get; set; }
+        public virtual ICollection<ContactDataPhoneNumbers> PhoneNumbers { get; set; }
+        public virtual ICollection<ContactDataUrls> Urls { get; set; }
     }
 }

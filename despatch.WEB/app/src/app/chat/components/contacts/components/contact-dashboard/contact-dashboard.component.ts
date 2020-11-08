@@ -5,8 +5,27 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { NavController } from '@ionic/angular';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthHelper } from 'src/app/shared/helpers/auth.helper';
-import { ContactRequest, ContactResponse, GetContactDataRequest } from 'src/swagger/models';
+import {
+  AddressRequest,
+  AddressType,
+  ContactDataAddressesRequest,
+  ContactDataImagesRequest,
+  ContactDataOrganizationsRequest,
+  ContactDataPhoneNumbersRequest,
+  ContactDataRequest,
+  ContactDataUrlsRequest,
+  ContactRequest,
+  ContactResponse,
+  GetContactDataRequest,
+  ImageRequest,
+  OrganizationRequest,
+  PhoneNumberRequest,
+  SyncContactRequest,
+  SyncContactResponse,
+  UrlRequest
+} from 'src/swagger/models';
 import { ContactService } from 'src/swagger/services';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-contact-dashboard',
@@ -15,13 +34,15 @@ import { ContactService } from 'src/swagger/services';
 })
 export class ContactDashboardComponent extends BaseComponent implements OnInit {
 
+  private window: any = window;
   public contacts: ContactResponse[];
+  public colors: string[];
   constructor(
-    public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef,
+    public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router,
     private contactService: ContactService, private authHelper: AuthHelper,
-    public navController: NavController
+    public navController: NavController, private sanitizer: DomSanitizer
   ) {
-    super(keyboard, AppR, router, cd, navController);
+    super(keyboard, AppR, router, navController);
     this.contacts = new Array<ContactResponse>();
   }
 
@@ -30,19 +51,30 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
   }
 
   public initData() {
-    this.getContactsData();
+    this.colors = new Array<string>();
+    if (this.contacts.length === 0) {
+      this.getContactsData(null);
+    }
+
   }
 
-  public getContactsData() {
+  public getContactsData(event) {
     const request = {
       skipCount: this.contacts.length,
       userId: this.authHelper.getUser().id
     } as GetContactDataRequest;
+
     this.contactService.ContactGetContactData(request).subscribe((result: ContactResponse[]) => {
-      this.contacts = result;
-      this.refresh();
+      console.log(result);
+      this.contacts = [...this.contacts, ...result];
+      this.contacts.forEach(x => {
+        this.colors.push(this.getRandomColor());
+      });
+      if (event) {
+        event.target.complete();
+      }
     }, err => {
-      this.refresh();
+      console.log(err);
     });
   }
 
@@ -56,23 +88,156 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
       desiredFields: [],
       hasPhoneNumber: true
     } as ContactFindOptions;
-    (navigator as any).contacts.find(['*'], this.onSuccess, err => console.log(err), options);
+    (navigator as any).contacts.find(['*'],
+      (contacts) => {
+        console.log(contacts);
+        const contactsRequest = this.mapContacts(contacts);
+        this.contactService.ContactSaveAllFromNative(contactsRequest).subscribe((result: SyncContactResponse[]) => {
+          this.contacts = result;
+        },
+          err => {
+            console.log(err);
+          });
+      },
+      err => console.log(err), options);
   }
 
-  onSuccess(contacts) {
-    console.log(contacts);
-    this.mapContacts(contacts);
-  }
-
-  mapContacts(contacts): Array<ContactRequest> {
-    const contactsRequest = new Array<ContactRequest>();
-    contacts.forEach(contact => {
-      const contactRequest = {
-        userId: this.authHelper.getUser().id
-      } as ContactRequest;
-      contactsRequest.push(contactRequest);
-    });
-
+  private mapContacts(contacts): Array<SyncContactRequest> {
+    const contactsRequest = new Array<SyncContactRequest>();
+    if (contacts) {
+      contacts.forEach(contact => {
+        const contactRequest = {
+          userId: this.authHelper.getUser().id,
+          contactData: this.mapContactData(contact),
+        } as SyncContactRequest;
+        contactsRequest.push(contactRequest);
+      });
+    }
     return contactsRequest;
+  }
+
+  private mapContactData(contact): ContactDataRequest {
+    const contactData = {
+      displayName: contact.displayName,
+      firstName: contact.name.givenName,
+      lastName: contact.name.familyName,
+      middleName: contact.name.middleName,
+      honorificPrefix: contact.name.honorificPrefix,
+      honorificSuffix: contact.name.honorificSuffix,
+      addresses: this.mapAddresses(contact),
+      images: this.mapImages(contact),
+      organizations: this.mapOrganizations(contact),
+      phoneNumbers: this.mapPhoneNumbers(contact),
+      urls: this.mapUrls(contact)
+    } as ContactDataRequest;
+    return contactData;
+  }
+
+  private mapAddresses(contact): ContactDataAddressesRequest[] {
+    const contactAddresses = new Array<ContactDataAddressesRequest>();
+    if (contact.addresses) {
+      contact.addresses.forEach(address => {
+        const addressRequest = {
+          address: {
+            deviceName: address.streetAddress,
+            type: 0 as AddressType
+          } as AddressRequest
+        } as ContactDataAddressesRequest;
+        contactAddresses.push(addressRequest);
+      });
+    }
+    return contactAddresses;
+  }
+
+  private mapImages(contact): ContactDataImagesRequest[] {
+    const contactImages = new Array<ContactDataImagesRequest>();
+    if (contact.photos) {
+      contact.photos.forEach(image => {
+        const imageRequest = {
+          image: {
+            deviceUrl: {
+              path: image.value,
+              type: 3
+            } as UrlRequest,
+            isMain: true,
+            type: 0
+          } as ImageRequest
+        } as ContactDataImagesRequest;
+        contactImages.push(imageRequest);
+      });
+    }
+    return contactImages;
+  }
+
+  private mapOrganizations(contact): ContactDataOrganizationsRequest[] {
+    const contactOrganizations = new Array<ContactDataOrganizationsRequest>();
+    if (contact.organizations) {
+      contact.organizations.forEach(organization => {
+        const organizationRequest = {
+          organization: {
+            name: organization.name,
+            position: organization.title
+          } as OrganizationRequest
+        } as ContactDataOrganizationsRequest;
+        contactOrganizations.push(organizationRequest);
+      });
+    }
+    return contactOrganizations;
+  }
+
+  private mapPhoneNumbers(contact): ContactDataPhoneNumbersRequest[] {
+    const contactPhoneNumbers = new Array<ContactDataPhoneNumbersRequest>();
+    if (contact.phoneNumbers) {
+      contact.phoneNumbers.forEach(phoneNumber => {
+        const phoneNumberRequest = {
+          phoneNumber: {
+            number: phoneNumber.value
+          } as PhoneNumberRequest
+        } as ContactDataPhoneNumbersRequest;
+        contactPhoneNumbers.push(phoneNumberRequest);
+      });
+    }
+    return contactPhoneNumbers;
+  }
+
+  private mapUrls(contact): ContactDataUrlsRequest[] {
+    const contactUrls = new Array<ContactDataUrlsRequest>();
+    if (contact.urls) {
+      contact.urls.forEach(url => {
+        const urlRequest = {
+          url: {
+            path: url.value,
+            type: 0
+          } as UrlRequest
+        } as ContactDataUrlsRequest;
+        contactUrls.push(urlRequest);
+      });
+    }
+    return contactUrls;
+  }
+
+  sanitizeImage(value) {
+    if (!value) {
+      return ;
+    }
+    const result = this.window.Ionic.WebView.convertFileSrc(value);
+    return result;
+  }
+
+  getPhonetic(contact: ContactResponse): string {
+    let result = '';
+    if (contact.contactData?.firstName) {
+      result += contact.contactData?.firstName.charAt(0);
+    }
+    if (contact.contactData?.lastName) {
+      result += contact.contactData?.lastName.charAt(0);
+    }
+    if (result.length < 2 && contact.contactData?.middleName) {
+      result += contact.contactData?.middleName.charAt(0);
+    }
+    if (result.length < 1 && contact.contactData?.displayName) {
+      result += contact.contactData?.displayName.charAt(0);
+    }
+    return result;
   }
 }

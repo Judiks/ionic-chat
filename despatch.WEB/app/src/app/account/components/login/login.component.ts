@@ -23,7 +23,7 @@ export class LoginComponent extends BaseComponent {
     public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef,
     public authService: AuthService, public authHelper: AuthHelper, public navController: NavController
   ) {
-    super(keyboard, AppR, router, cd, navController);
+    super(keyboard, AppR, router, navController);
     this.form = new FormGroup({
       login: new FormControl('', [
         Validators.required,

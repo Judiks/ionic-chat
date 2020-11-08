@@ -20,7 +20,7 @@ export class RoomsDashboardComponent extends BaseComponent implements OnInit {
     public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router, public cd: ChangeDetectorRef,
     public roomService: RoomService, public navController: NavController
   ) {
-    super(keyboard, AppR, router, cd, navController);
+    super(keyboard, AppR, router, navController);
     this.rooms = new Array<RoomResponse>();
   }
 
