@@ -6,9 +6,7 @@ using despatch.Domain.Models.Contacts.Response;
 using despatch.Domain.Models.Default.Request;
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Models.Room.Request;
-using despatch.Domain.Models.Room.Response;
 using System;
-using System.Collections.Generic;
 
 namespace despatch.Infrastructure.Helpers.Mapper
 {
@@ -38,31 +36,31 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // ContactDataAddresses
-            CreateMap<ContactDataAddressesRequest, ContactDataAddresses>()
+            CreateMap<ContactDataAddressesRequest, ContactDataAddress>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Address, o => o.MapFrom(y => y.Address))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // ContactDataOrganizations
-            CreateMap<ContactDataOrganizationsRequest, ContactDataOrganizations>()
+            CreateMap<ContactDataOrganizationsRequest, ContactDataOrganization>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Organization, o => o.MapFrom(y => y.Organization))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // ContactDataImages
-            CreateMap<ContactDataImagesRequest, ContactDataImages>()
+            CreateMap<ContactDataImagesRequest, ContactDataImage>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Image, o => o.MapFrom(y => y.Image))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // ContactDataPhoneNumbers
-            CreateMap<ContactDataPhoneNumbersRequest, ContactDataPhoneNumbers>()
+            CreateMap<ContactDataPhoneNumbersRequest, ContactDataPhoneNumber>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.PhoneNumber, o => o.MapFrom(y => y.PhoneNumber))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // ContactDataUrls
-            CreateMap<ContactDataUrlsRequest, ContactDataUrls>()
+            CreateMap<ContactDataUrlsRequest, ContactDataUrl>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Url, o => o.MapFrom(y => y.Url))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
@@ -89,7 +87,7 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // RoomImages
-            CreateMap<RoomImagesRequest, RoomImages>()
+            CreateMap<RoomImageRequest, RoomImage>()
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // Rooms
@@ -103,29 +101,29 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // UserAddresses
-            CreateMap<UserAddressesRequest, UserAddresses>()
+            CreateMap<UserAddressesRequest, UserAddresse>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Address, o => o.MapFrom(y => y.Address))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // UserImages
-            CreateMap<UserImagesRequest, UserImages>()
+            CreateMap<UserImagesRequest, UserImage>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Image, o => o.MapFrom(y => y.Image))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // UserOrganizations
-            CreateMap<UserOrganizationsRequest, UserOrganizations>()
+            CreateMap<UserOrganizationsRequest, UserOrganization>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Organization, o => o.MapFrom(y => y.Organization))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // UserPhoneNumbers
-            CreateMap<UserPhoneNumbersRequest, UserPhoneNumbers>()
+            CreateMap<UserPhoneNumbersRequest, UserPhoneNumber>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.PhoneNumber, o => o.MapFrom(y => y.PhoneNumber))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
-           
+
             // Users
             CreateMap<UserRequest, User>()
                 .ForMember(x => x.City, o => o.MapFrom(y => y.City))
@@ -133,17 +131,16 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // UserRooms
-            CreateMap<UserRoomsRequest, UserRooms>()
-                .ForMember(x => x.User, o => o.MapFrom(y => y.User))
+            CreateMap<UserRoomsRequest, UserRoom>()
                 .ForMember(x => x.Room, o => o.MapFrom(y => y.Room))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
 
             // UserPhoneNumbers
-            CreateMap<UserUrlsRequest, UserUrls>()
+            CreateMap<UserUrlsRequest, UserUrl>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Url, o => o.MapFrom(y => y.Url))
                 .ForMember(i => i.Id, o => o.MapFrom(y => y.Id ?? Guid.NewGuid().ToString())).ReverseMap();
-            
+
             // BY SECTION
             // Auth
 
@@ -174,31 +171,31 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ReverseMap();
 
             // ContactDataAddresses
-            CreateMap<ContactDataAddressesResponse, ContactDataAddresses>()
+            CreateMap<ContactDataAddressesResponse, ContactDataAddress>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Address, o => o.MapFrom(y => y.Address))
                 .ReverseMap();
 
             // ContactDataOrganizations
-            CreateMap<ContactDataOrganizationsResponse, ContactDataOrganizations>()
+            CreateMap<ContactDataOrganizationResponse, ContactDataOrganization>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Organization, o => o.MapFrom(y => y.Organization))
                 .ReverseMap();
 
             // ContactDataImages
-            CreateMap<ContactDataImagesResponse, ContactDataImages>()
+            CreateMap<ContactDataImageResponse, ContactDataImage>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Image, o => o.MapFrom(y => y.Image))
                 .ReverseMap();
 
             // ContactDataPhoneNumbers
-            CreateMap<ContactDataPhoneNumbersResponse, ContactDataPhoneNumbers>()
+            CreateMap<ContactDataPhoneNumberResponse, ContactDataPhoneNumber>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.PhoneNumber, o => o.MapFrom(y => y.PhoneNumber))
                 .ReverseMap();
 
             // ContactDataUrls
-            CreateMap<ContactDataUrlsResponse, ContactDataUrls>()
+            CreateMap<ContactDataUrlsResponse, ContactDataUrl>()
                 .ForMember(x => x.ContactData, o => o.MapFrom(y => y.ContactData))
                 .ForMember(x => x.Url, o => o.MapFrom(y => y.Url))
                 .ReverseMap();
@@ -210,6 +207,7 @@ namespace despatch.Infrastructure.Helpers.Mapper
 
             // Images
             CreateMap<ImageResponse, Image>()
+                .ForMember(x => x.DeviceUrl, o => o.MapFrom(y => y.DeviceUrl))
                 .ReverseMap();
 
             // Messages
@@ -225,13 +223,13 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ReverseMap();
 
             // RoomImages
-            CreateMap<RoomImagesResponse, RoomImages>()
+            CreateMap<RoomImageResponse, RoomImage>()
+                .ForMember(x => x.Image, o => o.MapFrom(y => y.Image))
                 .ReverseMap();
 
             // Rooms
             CreateMap<RoomResponse, Room>()
-                .ReverseMap();
-            CreateMap<CreateRoomResponse, Room>()
+                .ForMember(x => x.RoomImages, o => o.MapFrom(y => y.RoomImages))
                 .ReverseMap();
 
             // Urls
@@ -239,25 +237,25 @@ namespace despatch.Infrastructure.Helpers.Mapper
                 .ReverseMap();
 
             // UserAddresses
-            CreateMap<UserAddressesResponse, UserAddresses>()
+            CreateMap<UserAddressResponse, UserAddresse>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Address, o => o.MapFrom(y => y.Address))
                 .ReverseMap();
 
             // UserImages
-            CreateMap<UserImagesResponse, UserImages>()
+            CreateMap<UserImageResponse, UserImage>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Image, o => o.MapFrom(y => y.Image))
                 .ReverseMap();
 
             // UserOrganizations
-            CreateMap<UserOrganizationsResponse, UserOrganizations>()
+            CreateMap<UserOrganizationResponse, UserOrganization>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Organization, o => o.MapFrom(y => y.Organization))
                 .ReverseMap();
 
             // UserPhoneNumbers
-            CreateMap<UserPhoneNumbersResponse, UserPhoneNumbers>()
+            CreateMap<UserPhoneNumbersResponse, UserPhoneNumber>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.PhoneNumber, o => o.MapFrom(y => y.PhoneNumber))
                 .ReverseMap();
@@ -272,13 +270,13 @@ namespace despatch.Infrastructure.Helpers.Mapper
             CreateMap<User, RefreshTokenResponse>();
 
             // UserRooms
-            CreateMap<UserRoomsResponse, UserRooms>()
-                .ForMember(x => x.User, o => o.MapFrom(y => y.User))
+            CreateMap<UserRoomResponse, UserRoom>()
                 .ForMember(x => x.Room, o => o.MapFrom(y => y.Room))
+                .ForMember(x => x.Contact, o => o.MapFrom(y => y.Contact))
                 .ReverseMap();
 
             // UserPhoneNumbers
-            CreateMap<UserUrlsResponse, UserUrls>()
+            CreateMap<UserUrlsResponse, UserUrl>()
                 .ForMember(x => x.User, o => o.MapFrom(y => y.User))
                 .ForMember(x => x.Url, o => o.MapFrom(y => y.Url))
                 .ReverseMap();

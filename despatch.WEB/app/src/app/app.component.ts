@@ -12,7 +12,7 @@ import { PermissionHelper } from './shared/helpers/permission.helper';
 export class AppComponent {
 
   constructor(
-    platform: Platform, private permissionHelper: PermissionHelper,
+    private platform: Platform, private permissionHelper: PermissionHelper,
     private permission: AndroidPermissions
   ) {
     platform.ready().then(() => {

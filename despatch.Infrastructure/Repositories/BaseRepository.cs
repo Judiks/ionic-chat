@@ -1,5 +1,5 @@
 ﻿using despatch.Domain.Entities;
-using despatch.Domain.RepositorieInterfaces;
+using despatch.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +62,6 @@ namespace despatch.Infrastructure.Repositories
         public async Task DeleteRange(List<TEntity> entities)
         {
             _dbSet.RemoveRange(entities);
-            await _applicationDBContext.SaveChangesAsync();
             await _applicationDBContext.SaveChangesAsync();
         }
     }

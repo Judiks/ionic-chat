@@ -2,43 +2,9 @@
     color: lightsalmon;
 }
 
-.not-have-p {
-    font-size: 12px;
-    color: gray;
-}
-
 @media(min-width: 500px) { 
     .not-have-img {
         display: none;
     }
 }
-.not-have-img {
-    margin-block-start: -20% !important;
-}
 
-.contact-item {
-    
-}
-
-.contact-phonetic {
-    color: white;
-    text-align: center;
-    justify-content: center;
-    margin: auto;
-    text-transform: uppercase;
-}
-
-.contact-data {
-    border-bottom: 1px solid var(--ion-color-primary);
-    padding: 10px;
-    margin-right: 10px;
-}
-
-.contact-img {
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.contact-container-img {
-    height: 25vw;
-}

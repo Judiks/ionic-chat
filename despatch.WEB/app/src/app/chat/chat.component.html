@@ -1,20 +1,20 @@
 <ion-app>
   <ion-split-pane contentId="main">
     <ion-menu contentId="main" type="overlay">
-    <ion-content main>
-      <ion-list id="inbox-list">
-        <ion-list-header>Despatch</ion-list-header>
-        <ion-note>{{user.email}}</ion-note>
-        
-        <ion-menu-toggle auto-hide="false" *ngFor="let p of navigate; let i = index">
-          <ion-item (click)="selectedIndex = i" routerDirection="forward" [routerLink]="[p.url]" lines="none"
-            detail="false" [class.selected]="selectedIndex == i">
-            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-            <ion-label>{{ p.title }}</ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </ion-list>
-    </ion-content>
+      <ion-content main>
+        <ion-list id="inbox-list">
+          <ion-list-header>Despatch</ion-list-header>
+          <ion-note>{{user.userName}}</ion-note>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of navigate; let i = index">
+            <ion-item (click)="selectedIndex = i" routerDirection="forward" [routerLink]="[p.url]" lines="none"
+              detail="false" [class.selected]="selectedIndex == i">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
       <!-- <ion-list id="labels-list">
         <ion-list-header>Labels</ion-list-header>
 
@@ -23,8 +23,12 @@
           <ion-label>{{ label }}</ion-label>
         </ion-item>
       </ion-list> -->
-
-  </ion-menu>
+      <ion-footer>
+        <ion-item>
+          Exit
+        </ion-item>
+      </ion-footer>
+    </ion-menu>
     <!-- menu -->
     <ion-router-outlet id="main"></ion-router-outlet>
     <!-- menu -->

@@ -15,8 +15,9 @@ namespace despatch.Domain.Models.Default.Response
 
         public UserResponse Creator { get; set; }
         public MessageResponse LastMessage { get; set; }
+        public List<ContactResponse> Contacts { get; set; }
 
-        public virtual List<UserRoomsResponse> UserRooms { get; set; }
-        public virtual List<ImageResponse> Images { get; set; }
+        public virtual List<UserRoomResponse> UserRooms { get; set; }
+        public virtual List<RoomImageResponse> RoomImages { get; set; }
     }
 }

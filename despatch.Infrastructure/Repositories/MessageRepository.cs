@@ -1,5 +1,5 @@
 ﻿using despatch.Domain.Entities;
-using despatch.Domain.RepositorieInterfaces;
+using despatch.Domain.Repositories;
 
 namespace despatch.Infrastructure.Repositories
 {

@@ -1,6 +1,5 @@
 ﻿using despatch.Domain.Models.Auth.Request;
 using despatch.Domain.Models.Auth.Response;
-using despatch.Domain.Models.Default.Request;
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -55,6 +54,18 @@ namespace despatch.WEB.Controllers
             }
             var result = await _authService.SendConfirmSMS(model);
             return Ok(result);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SendInvitationSMS(SendInvitationSmsRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            await _authService.SendInvitationSMS(model);
+            return Ok();
         }
 
         [HttpPost]

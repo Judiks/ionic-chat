@@ -8,32 +8,31 @@
     <div class="text-center justify-content-center m-auto">
       <ion-img class=' m-auto w-75 h-75 not-have-img' src='assets/img/icons-contacts.png'></ion-img>
       <ion-label class="luckiest-guy-font not-have-label">You may not have contacts yet.</ion-label>
-      <p class='not-have-p'>Do you want to sync them from your device?</p>
+      <p class='warning-description'>Do you want to sync them from your device?</p>
       <ion-button (click)='syncContacts()'>Sync device contact</ion-button>
     </div>
   </div>
   <div *ngIf='contacts.length > 0'>
     <div *ngFor="let contact of contacts; index as i">
-      <div class="contact-item">
+      <div class="item-item">
         <div class='d-flex'>
-          <div class='d-flex w-25 contact-container-img'>
-            <ion-img *ngIf='contact.contactData?.images[0]?.image?.deviceUrl.path' class="w-75 h-75 m-auto contact-img"
+          <div class='d-flex w-25 item-container-img'>
+            <ion-img *ngIf='contact.contactData?.images[0]?.image?.deviceUrl.path' class="w-75 h-75 m-auto item-img"
               [src]='sanitizeImage(contact.contactData?.images[0]?.image?.deviceUrl.path)'></ion-img>
             <div *ngIf='!contact.contactData?.images[0]?.image?.deviceUrl.path'
-              class="w-75 h-75 m-auto contact-container-img">
-              <div class="d-flex w-100 h-100 contact-img" [ngStyle]="{'background-color': colors[i] }">
-                <div class='contact-phonetic'>
+              class="w-75 h-75 m-auto item-container-img">
+              <div class="d-flex w-100 h-100 item-img" [ngStyle]="{'background-color': colors[i] }">
+                <div class='item-phonetic'>
                   {{ getPhonetic(contact) }}
                 </div>
-              </div>  
+              </div>
             </div>
           </div>
-          <div class='w-75 contact-data'>
-            <div class='contact-name'>
-              {{contact.contactData.displayName}}
+          <div class='w-75 item-data' (click)='joinContactRoom(contact)'>
+            <div class='item-name'>
+              {{ contact.contactData.displayName }}
             </div>
-            <div class='contact-last-message'>
-
+            <div class='item-last-message'>
             </div>
           </div>
         </div>

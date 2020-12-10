@@ -12,15 +12,12 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace despatch.Infrastructure.Helpers
 {
-    public class EmailHelper: IEmailHelper
+    public class EmailHelper : IEmailHelper
     {
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly IServiceProvider _serviceProvider;
@@ -41,7 +38,7 @@ namespace despatch.Infrastructure.Helpers
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Site administration", "login@yandex.ru"));
+            emailMessage.From.Add(new MailboxAddress("Despatch", _option.Value.Email));
             emailMessage.To.Add(new MailboxAddress(email, email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

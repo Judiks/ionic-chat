@@ -5,6 +5,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { NavController } from '@ionic/angular';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { AuthHelper } from 'src/app/shared/helpers/auth.helper';
+import { RoomHelper } from 'src/app/shared/helpers/room.helper';
 import {
   AddressRequest,
   AddressType,
@@ -14,18 +15,19 @@ import {
   ContactDataPhoneNumbersRequest,
   ContactDataRequest,
   ContactDataUrlsRequest,
-  ContactRequest,
   ContactResponse,
+  CreateRoomFromContactRequest,
   GetContactDataRequest,
+  GetRoomByContactRequest,
   ImageRequest,
   OrganizationRequest,
   PhoneNumberRequest,
+  RoomResponse,
   SyncContactRequest,
   SyncContactResponse,
   UrlRequest
 } from 'src/swagger/models';
-import { ContactService } from 'src/swagger/services';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ContactService, RoomService } from 'src/swagger/services';
 
 @Component({
   selector: 'app-contact-dashboard',
@@ -34,13 +36,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ContactDashboardComponent extends BaseComponent implements OnInit {
 
-  private window: any = window;
   public contacts: ContactResponse[];
-  public colors: string[];
+
   constructor(
     public keyboard: Keyboard, public AppR: ApplicationRef, public router: Router,
     private contactService: ContactService, private authHelper: AuthHelper,
-    public navController: NavController, private sanitizer: DomSanitizer
+    public navController: NavController, private roomService: RoomService,
+    public roomHelper: RoomHelper
   ) {
     super(keyboard, AppR, router, navController);
     this.contacts = new Array<ContactResponse>();
@@ -216,14 +218,6 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
     return contactUrls;
   }
 
-  sanitizeImage(value) {
-    if (!value) {
-      return ;
-    }
-    const result = this.window.Ionic.WebView.convertFileSrc(value);
-    return result;
-  }
-
   getPhonetic(contact: ContactResponse): string {
     let result = '';
     if (contact.contactData?.firstName) {
@@ -239,5 +233,22 @@ export class ContactDashboardComponent extends BaseComponent implements OnInit {
       result += contact.contactData?.displayName.charAt(0);
     }
     return result;
+  }
+
+  joinContactRoom(contact: ContactResponse) {
+    const request = { contactId: contact.id } as GetRoomByContactRequest;
+    this.roomService.RoomGetRoomByContact(request).subscribe((response: RoomResponse) => {
+      const createRequest = JSON.parse(JSON.stringify({ contact })) as CreateRoomFromContactRequest;
+      if (!response) {
+        this.roomService.RoomCreateFromContact(createRequest).subscribe((response2: RoomResponse) => {
+          this.roomHelper.setRoom(response2);
+          this.redirectToRoom();
+        });
+      } else {
+        this.roomHelper.setRoom(response);
+        this.redirectToRoom();
+      }
+    });
+
   }
 }

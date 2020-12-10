@@ -31,7 +31,6 @@ import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
   providers: [
     StatusBar,
     SplashScreen,
-
     Keyboard,
     AndroidPermissions,
     {

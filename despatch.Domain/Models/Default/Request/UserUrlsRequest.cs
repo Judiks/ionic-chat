@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace despatch.Domain.Models.Default.Request
+﻿namespace despatch.Domain.Models.Default.Request
 {
     public class UserUrlsRequest : BaseEntityRequest
     {

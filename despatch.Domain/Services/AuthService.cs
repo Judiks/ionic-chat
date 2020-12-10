@@ -1,20 +1,22 @@
 ﻿using AutoMapper;
-using despatch.Domain.Constants;
+using despatch.Core.Constants;
+using despatch.Core.Extensions;
+using despatch.Core.Exсeptions;
 using despatch.Domain.Entities;
-using despatch.Domain.Exсeptions;
 using despatch.Domain.HelperInterfaces;
 using despatch.Domain.Models.Auth.Request;
 using despatch.Domain.Models.Auth.Response;
 using despatch.Domain.Models.Default.Request;
-using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Models.Enums;
 using despatch.Domain.Models.RazorModels;
+using despatch.Domain.Repositories;
 using despatch.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +29,15 @@ namespace despatch.Domain.Services
         private readonly IJwtHelper _jwtHelper;
         private readonly IAuthHelper _authHelper;
         private readonly IEmailHelper _emailHelper;
+        private readonly IContactRepository _contactRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IAuthMessageHelper _authMessageHelper;
+        private readonly IPhoneNumberRepository _phoneNumberRepository;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AuthService(UserManager<User> userManager,
-            IMapper mapper, SignInManager<User> signInManager, IJwtHelper jwtHelper,
-            IAuthMessageHelper authMessageHelper, IEmailHelper emailHelper, IAuthHelper authHelper)
+        public AuthService(UserManager<User> userManager, IContactRepository contactRepository,
+            IMapper mapper, SignInManager<User> signInManager, IJwtHelper jwtHelper, IUserRepository userRepository,
+            IAuthMessageHelper authMessageHelper, IEmailHelper emailHelper, IAuthHelper authHelper, IPhoneNumberRepository phoneNumberRepository)
         {
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -41,6 +46,9 @@ namespace despatch.Domain.Services
             _authHelper = authHelper;
             _jwtHelper = jwtHelper;
             _mapper = mapper;
+            _contactRepository = contactRepository;
+            _userRepository = userRepository;
+            _phoneNumberRepository = phoneNumberRepository;
         }
 
         private async Task<User> FindUser(string login)
@@ -110,6 +118,7 @@ namespace despatch.Domain.Services
         {
             await IsUserExist(model);
             User user = _mapper.Map<UserRequest, User>(model);
+            user.PhoneNumber = user.PhoneNumber.PhoneNumberFormat();
             user.PhoneNumberConfirmed = true;
             IdentityResult status = await _userManager.CreateAsync(user, model.Password);
             if (!status.Succeeded)
@@ -119,7 +128,17 @@ namespace despatch.Domain.Services
             await _userManager.AddToRoleAsync(user, model.Role.ToString());
             RegisterResponse result = _mapper.Map<User, RegisterResponse>(user);
             result.Role = model.Role;
+            PhoneNumber phoneNumber = await _phoneNumberRepository.GetByNumber(user.PhoneNumber);
+            if (!(phoneNumber is null))
+            {
+                List<Contact> contacts = await _contactRepository.GetByPhone(phoneNumber.Id, user.PhoneNumber);
+                foreach(var contact in contacts)
+                {
+                    contact.FriendId = user.Id;
+                }
+                await _contactRepository.UpdateRange(contacts);
 
+            }
             var confirmEmail = new ConfirmEmailView();
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -189,6 +208,21 @@ namespace despatch.Domain.Services
             else
             {
                 return false;
+            }
+        }
+
+        public async Task SendInvitationSMS(SendInvitationSmsRequest request)
+        {
+            var random = new Random();
+            Contact contact = await _contactRepository.GetByIdWithNested(request.ContactId);
+            string userId = _authHelper.GetUserId();
+            User user = await _userRepository.GetById(userId);
+            string message = $"You have been invited to Despatch messenger by { user.UserName }! \n Refer to the link to view the application opportunities!";
+            message += $"\n http://localhost:8100/chat/rooms/room \n With ♥ { user.UserName }";
+            foreach (var phoneNumber in contact.ContactData.PhoneNumbers)
+            {
+                var number = phoneNumber.PhoneNumber.Number.Replace(" ", "");
+                await _authMessageHelper.SendSmsAsync(number, message);
             }
         }
     }

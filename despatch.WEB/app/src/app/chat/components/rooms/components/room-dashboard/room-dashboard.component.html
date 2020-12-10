@@ -1,3 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="app-header">Rooms</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf='rooms.length > 0'>
+    <div *ngFor="let room of rooms; index as i">
+      <div class="item-item">
+        <div class='d-flex'>
+          <div class='d-flex w-25 item-container-img'>
+            <ion-img *ngIf='room.images[0]?.deviceUrl.path' class="w-75 h-75 m-auto item-img"
+              [src]='sanitizeImage(room.images[0]?.deviceUrl.path)'></ion-img>
+            <div *ngIf='!room.images[0]?.deviceUrl.path'
+              class="w-75 h-75 m-auto item-container-img">
+              <div class="d-flex w-100 h-100 item-img" [ngStyle]="{'background-color': colors[i] }">
+                <div class='item-phonetic'>
+                  {{ room.name[0] }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class='w-75 item-data' (click)='joinRoom(room)'>
+            <div class='item-name'>
+              {{ room.name }}
+            </div>
+            <div class='item-last-message'>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getRoomsData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
 <div class="add-icon-container">
   <ion-button class="add-button" icon-only shape="round">
     <ion-icon class="add-icon" name="pencil"></ion-icon>

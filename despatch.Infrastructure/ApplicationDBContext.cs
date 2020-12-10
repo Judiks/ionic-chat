@@ -13,6 +13,9 @@ namespace despatch.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<PhoneNumber>()
+                .HasIndex(u => u.Number)
+                .IsUnique();
         }
 
         public DbSet<Address> Addresses { get; set; }
@@ -20,11 +23,11 @@ namespace despatch.Infrastructure
 
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ContactData> ContactDatas { get; set; }
-        public DbSet<ContactDataAddresses> ContactDataAddresses { get; set; }
-        public DbSet<ContactDataImages> ContactDataImages { get; set; }
-        public DbSet<ContactDataOrganizations> ContactDataOrganizations { get; set; }
-        public DbSet<ContactDataPhoneNumbers> ContactDataPhoneNumbers { get; set; }
-        public DbSet<ContactDataUrls> ContactDataUrls { get; set; }
+        public DbSet<ContactDataAddress> ContactDataAddresses { get; set; }
+        public DbSet<ContactDataImage> ContactDataImages { get; set; }
+        public DbSet<ContactDataOrganization> ContactDataOrganizations { get; set; }
+        public DbSet<ContactDataPhoneNumber> ContactDataPhoneNumbers { get; set; }
+        public DbSet<ContactDataUrl> ContactDataUrls { get; set; }
 
         public DbSet<Country> Countries { get; set; }
         public DbSet<Image> Images { get; set; }
@@ -33,15 +36,15 @@ namespace despatch.Infrastructure
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
 
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<RoomImages> RoomImages { get; set; }
+        public DbSet<RoomImage> RoomImages { get; set; }
 
         public DbSet<Url> Urls { get; set; }
 
-        public DbSet<UserAddresses> UserAddresses { get; set; }
-        public DbSet<UserImages> UserImages { get; set; }
-        public DbSet<UserOrganizations> UserOrganizations { get; set; }
-        public DbSet<UserPhoneNumbers> UserPhoneNumbers { get; set; }
-        public DbSet<UserRooms> UserRooms { get; set; }
-        public DbSet<UserUrls> UserUrls { get; set; }
+        public DbSet<UserAddresse> UserAddresses { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<UserOrganization> UserOrganizations { get; set; }
+        public DbSet<UserPhoneNumber> UserPhoneNumbers { get; set; }
+        public DbSet<UserRoom> UserRooms { get; set; }
+        public DbSet<UserUrl> UserUrls { get; set; }
     }
 }

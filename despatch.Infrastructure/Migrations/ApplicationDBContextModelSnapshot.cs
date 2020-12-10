@@ -256,7 +256,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("ContactDatas");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataAddresses", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataAddress", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -279,7 +279,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("ContactDataAddresses");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataImages", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataImage", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -302,7 +302,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("ContactDataImages");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataOrganizations", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataOrganization", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -325,7 +325,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("ContactDataOrganizations");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataPhoneNumbers", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataPhoneNumber", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -348,7 +348,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("ContactDataPhoneNumbers");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataUrls", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataUrl", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -407,9 +407,6 @@ namespace despatch.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoomId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SourseUrlId")
                         .HasColumnType("nvarchar(450)");
 
@@ -419,8 +416,6 @@ namespace despatch.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DeviceUrlId");
-
-                    b.HasIndex("RoomId");
 
                     b.HasIndex("SourseUrlId");
 
@@ -482,9 +477,13 @@ namespace despatch.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasFilter("[Number] IS NOT NULL");
 
                     b.ToTable("PhoneNumbers");
                 });
@@ -526,7 +525,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.RoomImages", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.RoomImage", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -646,7 +645,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserAddresses", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserAddresse", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -669,7 +668,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("UserAddresses");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserImages", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserImage", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -692,7 +691,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("UserImages");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserOrganizations", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserOrganization", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -718,7 +717,7 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("UserOrganizations");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserPhoneNumbers", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserPhoneNumber", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -741,9 +740,12 @@ namespace despatch.Infrastructure.Migrations
                     b.ToTable("UserPhoneNumbers");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserRooms", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserRoom", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContactId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatingDate")
@@ -755,19 +757,16 @@ namespace despatch.Infrastructure.Migrations
                     b.Property<string>("RoomId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("ContactId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("UserRooms");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserUrls", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserUrl", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -856,21 +855,21 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataAddresses", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataAddress", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 
                     b.HasOne("despatch.Domain.Entities.ContactData", "ContactData")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("ContactDataId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataImages", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataImage", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.ContactData", "ContactData")
-                        .WithMany()
+                        .WithMany("Images")
                         .HasForeignKey("ContactDataId");
 
                     b.HasOne("despatch.Domain.Entities.Image", "Image")
@@ -878,10 +877,10 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("ImageId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataOrganizations", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataOrganization", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.ContactData", "ContactData")
-                        .WithMany()
+                        .WithMany("Organizations")
                         .HasForeignKey("ContactDataId");
 
                     b.HasOne("despatch.Domain.Entities.Organization", "Organization")
@@ -889,10 +888,10 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("OrganizationId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataPhoneNumbers", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataPhoneNumber", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.ContactData", "ContactData")
-                        .WithMany()
+                        .WithMany("PhoneNumbers")
                         .HasForeignKey("ContactDataId");
 
                     b.HasOne("despatch.Domain.Entities.PhoneNumber", "PhoneNumber")
@@ -900,10 +899,10 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("PhoneNumberId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.ContactDataUrls", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.ContactDataUrl", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.ContactData", "ContactData")
-                        .WithMany()
+                        .WithMany("Urls")
                         .HasForeignKey("ContactDataId");
 
                     b.HasOne("despatch.Domain.Entities.Url", "Url")
@@ -916,10 +915,6 @@ namespace despatch.Infrastructure.Migrations
                     b.HasOne("despatch.Domain.Entities.Url", "DeviceUrl")
                         .WithMany()
                         .HasForeignKey("DeviceUrlId");
-
-                    b.HasOne("despatch.Domain.Entities.Room", null)
-                        .WithMany("Images")
-                        .HasForeignKey("RoomId");
 
                     b.HasOne("despatch.Domain.Entities.Url", "SourceUrl")
                         .WithMany()
@@ -944,14 +939,14 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("despatch.Domain.Entities.Room", "LastMessageId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.RoomImages", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.RoomImage", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
                     b.HasOne("despatch.Domain.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("Images")
                         .HasForeignKey("RoomId");
                 });
 
@@ -966,69 +961,69 @@ namespace despatch.Infrastructure.Migrations
                         .HasForeignKey("CountryId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserAddresses", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserAddresse", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 
                     b.HasOne("despatch.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserImages", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserImage", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
                     b.HasOne("despatch.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Images")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserOrganizations", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserOrganization", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId");
 
                     b.HasOne("despatch.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Organizations")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserPhoneNumbers", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserPhoneNumber", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.PhoneNumber", "PhoneNumber")
                         .WithMany()
                         .HasForeignKey("PhoneNumberId");
 
                     b.HasOne("despatch.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("PhoneNumbers")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserRooms", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserRoom", b =>
                 {
+                    b.HasOne("despatch.Domain.Entities.Contact", "Contact")
+                        .WithMany()
+                        .HasForeignKey("ContactId");
+
                     b.HasOne("despatch.Domain.Entities.Room", "Room")
                         .WithMany("UserRooms")
                         .HasForeignKey("RoomId");
-
-                    b.HasOne("despatch.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("despatch.Domain.Entities.UserUrls", b =>
+            modelBuilder.Entity("despatch.Domain.Entities.UserUrl", b =>
                 {
                     b.HasOne("despatch.Domain.Entities.Url", "Url")
                         .WithMany()
                         .HasForeignKey("UrlId");
 
                     b.HasOne("despatch.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Urls")
                         .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618

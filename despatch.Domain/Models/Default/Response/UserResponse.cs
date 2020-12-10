@@ -15,9 +15,9 @@ namespace despatch.Domain.Models.Default.Response
         public virtual CityResponse City { get; set; }
         public virtual CountryResponse Country { get; set; }
 
-        public ICollection<UserAddressesResponse> Addresses { get; set; }
-        public ICollection<UserOrganizationsResponse> Organizations { get; set; }
-        public ICollection<UserImagesResponse> Images { get; set; }
+        public ICollection<UserAddressResponse> Addresses { get; set; }
+        public ICollection<UserOrganizationResponse> Organizations { get; set; }
+        public ICollection<UserImageResponse> Images { get; set; }
         public ICollection<UserPhoneNumbersResponse> PhoneNumbers { get; set; }
         public ICollection<UserUrlsResponse> Urls { get; set; }
 

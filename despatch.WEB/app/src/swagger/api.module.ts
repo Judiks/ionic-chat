@@ -5,6 +5,7 @@ import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration
 
 import { AuthService } from './services/auth.service';
 import { ContactService } from './services/contact.service';
+import { FileService } from './services/file.service';
 import { RoomService } from './services/room.service';
 
 /**
@@ -22,6 +23,7 @@ import { RoomService } from './services/room.service';
     ApiConfiguration,
     AuthService,
     ContactService,
+    FileService,
     RoomService
   ],
 })

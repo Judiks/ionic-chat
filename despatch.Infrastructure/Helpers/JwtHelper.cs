@@ -1,21 +1,18 @@
-﻿using despatch.Domain.Constants;
-using despatch.Domain.Entities;
-using despatch.Domain.Exсeptions;
+﻿using despatch.Domain.Entities;
 using despatch.Domain.HelperInterfaces;
 using despatch.Infrastructure.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace despatch.Infrastructure.Helpers
 {
-    public class JwtHelper: IJwtHelper
+    public class JwtHelper : IJwtHelper
     {
         private readonly IOptions<AuthOption> _option;
         public JwtHelper(IOptions<AuthOption> option)
@@ -35,17 +32,14 @@ namespace despatch.Infrastructure.Helpers
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(expireDays),
-                SigningCredentials = creds
-            };
-
             var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-
+            var token = new JwtSecurityToken(
+                    claims: new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme, ClaimTypes.Name,
+                        ClaimTypes.Role).Claims,
+                    expires: DateTime.Now.AddDays(expireDays),
+                    signingCredentials: creds);
             return tokenHandler.WriteToken(token);
         }
     }
 }
+

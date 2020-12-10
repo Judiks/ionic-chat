@@ -1,13 +1,12 @@
 ﻿using despatch.Domain.Models.Auth.Request;
 using despatch.Domain.Models.Auth.Response;
-using despatch.Domain.Models.Default.Request;
-using despatch.Domain.Models.Default.Response;
 using System.Threading.Tasks;
 
 namespace despatch.Domain.Services.Interfaces
 {
     public interface IAuthService
     {
+        Task SendInvitationSMS(SendInvitationSmsRequest request);
         Task<bool> CheckUserName(string userName);
         Task<bool> CheckEmail(string email);
         Task<string> SendConfirmSMS(SendConfirmSMSRequest model);

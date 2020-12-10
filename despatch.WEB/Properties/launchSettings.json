@@ -2,20 +2,16 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/despatch.WEB",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "http://localhost:57124",
-      "sslPort": 44364
+      "applicationUrl": "http://localhost:50000",
+      "sslPort": 44331
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "ionic-chat": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -26,6 +22,10 @@
       "dotnetRunMessages": "true",
       "nativeDebugging": false,
       "applicationUrl": "https://localhost"
+    },
+    "IIS": {
+      "commandName": "IISExpress",
+      "launchBrowser": true
     }
   }
 }

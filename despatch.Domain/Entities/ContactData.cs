@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace despatch.Domain.Entities
 {
@@ -17,11 +14,11 @@ namespace despatch.Domain.Entities
         public string Nickname { get; set; }
         public string Note { get; set; }
         public DateTime? BirthdayDate { get; set; }
-        public string Email { get; set; } 
-        public virtual ICollection<ContactDataAddresses> Addresses { get; set; }
-        public virtual ICollection<ContactDataOrganizations> Organizations { get; set; }
-        public virtual ICollection<ContactDataImages> Images { get; set; }
-        public virtual ICollection<ContactDataPhoneNumbers> PhoneNumbers { get; set; }
-        public virtual ICollection<ContactDataUrls> Urls { get; set; }
+        public string Email { get; set; }
+        public virtual ICollection<ContactDataAddress> Addresses { get; set; }
+        public virtual ICollection<ContactDataOrganization> Organizations { get; set; }
+        public virtual ICollection<ContactDataImage> Images { get; set; }
+        public virtual ICollection<ContactDataPhoneNumber> PhoneNumbers { get; set; }
+        public virtual ICollection<ContactDataUrl> Urls { get; set; }
     }
 }

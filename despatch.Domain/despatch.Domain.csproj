@@ -19,5 +19,9 @@
     <Folder Include="Models\ContactData\" />
     <Folder Include="Models\Enums\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\despatch.Core\despatch.Core.csproj" />
+  </ItemGroup>
   
 </Project>

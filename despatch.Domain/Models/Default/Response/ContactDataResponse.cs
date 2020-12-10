@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace despatch.Domain.Models.Default.Response
 {
@@ -19,10 +16,10 @@ namespace despatch.Domain.Models.Default.Response
         public string Email { get; set; }
         public DateTime? BirthdayDate { get; set; }
 
-        public ICollection<ContactDataAddressesResponse> Addresses { get; set; }
-        public ICollection<ContactDataOrganizationsResponse> Organizations { get; set; }
-        public ICollection<ContactDataImagesResponse> Images { get; set; }
-        public ICollection<ContactDataPhoneNumbersResponse> PhoneNumbers { get; set; }
-        public ICollection<ContactDataUrlsResponse> Urls { get; set; }
+        public List<ContactDataAddressesResponse> Addresses { get; set; }
+        public List<ContactDataOrganizationResponse> Organizations { get; set; }
+        public List<ContactDataImageResponse> Images { get; set; }
+        public List<ContactDataPhoneNumberResponse> PhoneNumbers { get; set; }
+        public List<ContactDataUrlsResponse> Urls { get; set; }
     }
 }

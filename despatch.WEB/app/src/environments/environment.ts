@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  //apiURL: 'https://192.168.0.108:44364',
-  apiURL: 'https://despatch.azurewebsites.net'
+  apiURL: 'https://192.168.31.223:44364', // home
+  // apiURL: 'https://192.168.31.154:44364', // wi-fi home
+  // apiURL: 'https://192.168.0.108:44364', // kharkiv home
 };
 /*
  * For easier debugging in development mode, you can import the following file

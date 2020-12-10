@@ -1,6 +1,4 @@
-﻿using despatch.Domain.Enums;
-
-namespace despatch.Domain.Models.Default.Response
+﻿namespace despatch.Domain.Models.Default.Response
 {
     public class ContactDataAddressesResponse : BaseEntityResponse
     {

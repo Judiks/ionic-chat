@@ -1,13 +1,10 @@
-﻿using despatch.Domain.Constants;
+﻿using despatch.Core.Constants;
 using despatch.Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,36 +24,52 @@ namespace despatch.Infrastructure.Extension
         public static void AddAuthOptions(this IServiceCollection services, IConfiguration configuration, string key)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            var tokenValidationParametr = new TokenValidationParameters {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+            var creds = new SymmetricSecurityKey(Encoding.ASCII
+                .GetBytes(key));
+            var tokenValidationParametr = new TokenValidationParameters
+            {
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = creds,
             };
-
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //        .AddJwtBearer(options =>
+            //        {
+            //            options.RequireHttpsMetadata = false;
+            //            options.TokenValidationParameters = new TokenValidationParameters
+            //            {
+            //                ValidateIssuer = false,
+            //                ValidateAudience = false,
+            //                ValidateLifetime = true,
+            //                ValidateIssuerSigningKey = true,
+            //                IssuerSigningKey = creds,
+            //            };
+            //        });
             services.Configure<AuthOption>(configuration.GetSection(typeof(AuthOption).Name));
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x => {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = tokenValidationParametr;
-                x.Events = new JwtBearerEvents()
+            })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
                 {
-                    OnAuthenticationFailed = context =>
+                    x.RequireHttpsMetadata = false;
+                    x.TokenValidationParameters = tokenValidationParametr;
+                    x.Events = new JwtBearerEvents()
                     {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        OnAuthenticationFailed = context =>
                         {
-                            context.Response.Headers.Add(ExceptionConstant.TokenExpiredHeader, "true");
-                        }
-                        return Task.CompletedTask;
-                    },
-                };
-            });
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add(ExceptionConstant.TokenExpiredHeader, "true");
+                            }
+                            return Task.CompletedTask;
+                        },
+                    };
+                });
+
         }
     }
 }

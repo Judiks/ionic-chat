@@ -12,6 +12,7 @@ import { RegisterRequest } from '../models/register-request';
 import { LoginResponse } from '../models/login-response';
 import { LoginRequest } from '../models/login-request';
 import { SendConfirmSMSRequest } from '../models/send-confirm-smsrequest';
+import { SendInvitationSmsRequest } from '../models/send-invitation-sms-request';
 import { RefreshTokenResponse } from '../models/refresh-token-response';
 import { RefreshTokenRequest } from '../models/refresh-token-request';
 @Injectable({
@@ -21,6 +22,7 @@ class AuthService extends __BaseService {
   static readonly AuthRegisterPath = '/api/Auth/Register';
   static readonly AuthLoginPath = '/api/Auth/Login';
   static readonly AuthSendRegisterSMSPath = '/api/Auth/SendRegisterSMS';
+  static readonly AuthSendInvitationSMSPath = '/api/Auth/SendInvitationSMS';
   static readonly AuthCheckUserNamePath = '/api/Auth/CheckUserName';
   static readonly AuthCheckUserEmailPath = '/api/Auth/CheckUserEmail';
   static readonly AuthRefreshTokenPath = '/api/Auth/RefreshToken';
@@ -131,6 +133,40 @@ class AuthService extends __BaseService {
    */
   AuthSendRegisterSMS(model: SendConfirmSMSRequest): __Observable<string> {
     return this.AuthSendRegisterSMSResponse(model).pipe(
+      __map(_r => _r.body as string)
+    );
+  }
+
+  /**
+   * @param model undefined
+   */
+  AuthSendInvitationSMSResponse(model: SendInvitationSmsRequest): __Observable<__StrictHttpResponse<string>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = model;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/Auth/SendInvitationSMS`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'text'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<string>;
+      })
+    );
+  }
+  /**
+   * @param model undefined
+   */
+  AuthSendInvitationSMS(model: SendInvitationSmsRequest): __Observable<string> {
+    return this.AuthSendInvitationSMSResponse(model).pipe(
       __map(_r => _r.body as string)
     );
   }

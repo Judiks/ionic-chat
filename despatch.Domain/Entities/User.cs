@@ -14,11 +14,11 @@ namespace despatch.Domain.Entities
         public virtual City City { get; set; }
         public virtual Country Country { get; set; }
 
-        public ICollection<UserAddresses> Addresses { get; set; }
-        public ICollection<UserOrganizations> Organizations { get; set; }
-        public ICollection<UserImages> Images { get; set; }
-        public ICollection<UserPhoneNumbers> PhoneNumbers { get; set; }
-        public ICollection<UserUrls> Urls { get; set; }
+        public ICollection<UserAddresse> Addresses { get; set; }
+        public ICollection<UserOrganization> Organizations { get; set; }
+        public ICollection<UserImage> Images { get; set; }
+        public ICollection<UserPhoneNumber> PhoneNumbers { get; set; }
+        public ICollection<UserUrl> Urls { get; set; }
         public User()
         {
             Id = Guid.NewGuid().ToString();

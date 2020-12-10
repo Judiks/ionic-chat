@@ -1,6 +1,6 @@
-﻿using despatch.Domain.Constants;
-using despatch.Domain.Exeptions;
-using despatch.Domain.Exсeptions;
+﻿using despatch.Core.Constants;
+using despatch.Core.Exeptions;
+using despatch.Core.Exсeptions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;

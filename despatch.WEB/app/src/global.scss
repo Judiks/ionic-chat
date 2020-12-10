@@ -161,3 +161,32 @@ ion-scroll[direction=x] {
   ion-scroll[direction=y] {
     height: 100vh;
   }
+
+
+.item-phonetic {
+    color: white;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    text-transform: uppercase;
+}
+
+.item-data {
+    border-bottom: 1px solid var(--ion-color-primary);
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.item-img {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.item-container-img {
+    height: 25vw;
+}
+
+.warning-description {
+    font-size: 12px;
+    color: gray;
+}

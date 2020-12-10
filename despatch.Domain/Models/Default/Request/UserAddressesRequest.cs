@@ -1,6 +1,4 @@
-﻿using despatch.Domain.Enums;
-
-namespace despatch.Domain.Models.Default.Request
+﻿namespace despatch.Domain.Models.Default.Request
 {
     public class UserAddressesRequest : BaseEntityRequest
     {

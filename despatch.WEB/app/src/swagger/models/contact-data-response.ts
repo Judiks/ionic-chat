@@ -1,9 +1,9 @@
 /* tslint:disable */
 import { BaseEntityResponse } from './base-entity-response';
 import { ContactDataAddressesResponse } from './contact-data-addresses-response';
-import { ContactDataImagesResponse } from './contact-data-images-response';
-import { ContactDataOrganizationsResponse } from './contact-data-organizations-response';
-import { ContactDataPhoneNumbersResponse } from './contact-data-phone-numbers-response';
+import { ContactDataImageResponse } from './contact-data-image-response';
+import { ContactDataOrganizationResponse } from './contact-data-organization-response';
+import { ContactDataPhoneNumberResponse } from './contact-data-phone-number-response';
 import { ContactDataUrlsResponse } from './contact-data-urls-response';
 export interface ContactDataResponse extends BaseEntityResponse{
   addresses?: Array<ContactDataAddressesResponse>;
@@ -13,12 +13,12 @@ export interface ContactDataResponse extends BaseEntityResponse{
   firstName?: string;
   honorificPrefix?: string;
   honorificSuffix?: string;
-  images?: Array<ContactDataImagesResponse>;
+  images?: Array<ContactDataImageResponse>;
   lastName?: string;
   middleName?: string;
   nickname?: string;
   note?: string;
-  organizations?: Array<ContactDataOrganizationsResponse>;
-  phoneNumbers?: Array<ContactDataPhoneNumbersResponse>;
+  organizations?: Array<ContactDataOrganizationResponse>;
+  phoneNumbers?: Array<ContactDataPhoneNumberResponse>;
   urls?: Array<ContactDataUrlsResponse>;
 }

@@ -1,4 +1,4 @@
-﻿using despatch.Domain.Models.Default.Request;
+﻿
 using despatch.Domain.Models.Default.Response;
 using despatch.Domain.Models.Room.Request;
 using despatch.Domain.Models.Room.Response;
@@ -21,18 +21,42 @@ namespace despatch.WEB.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreateRoomResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RoomResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(CreateRoomRequest model)
         {
-            CreateRoomResponse response = await _roomService.Create(model);
+            RoomResponse response = await _roomService.Create(model);
             return Ok(response);
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(List<RoomResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserRooms()
+        [HttpPost]
+        [ProducesResponseType(typeof(RoomResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateFromContact(CreateRoomFromContactRequest model)
         {
-            List<RoomResponse> response  = await _roomService.GetUserRooms();
+            RoomResponse response = await _roomService.CreateFromContact(model);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(RoomResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRoomByContact(GetRoomByContactRequest request)
+        {
+            RoomResponse response = await _roomService.GetRoomByContact(request);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(List<RoomResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserRooms(GetRoomDataRequest request)
+        {
+            List<RoomResponse> response = await _roomService.GetPaginUserRooms(request);
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(GetRoomContactsResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRoomContacts(GetRoomContactsRequest request)
+        {
+            GetRoomContactsResponse response = await _roomService.GetRoomContacts(request);
             return Ok(response);
         }
     }

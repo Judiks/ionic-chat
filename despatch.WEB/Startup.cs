@@ -1,17 +1,12 @@
 using AutoMapper;
-using despatch.Domain.Constants;
-using despatch.Infrastructure;
+using despatch.Core.Constants;
 using despatch.Infrastructure.Extension;
 using despatch.Infrastructure.Helpers.Mapper;
-using despatch.Infrastructure.Options;
 using despatch.WEB.Middeleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
 using System.Linq;
 
 namespace despatch
@@ -30,12 +25,17 @@ namespace despatch
             services.AddDependencies();
             services.AddDbContext(Configuration.GetConnectionString("DefaultConnection"));
             services.AddOptions(Configuration);
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddHttpContextAccessor();
 
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "wwwroot";
+            });
             ConfigureSwagger(services);
             ConfigureAutomapper(services);
             ConfigureCors(services, Configuration);
@@ -45,17 +45,23 @@ namespace despatch
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("AllowAll");
+            app.UseRouting();
             app.UseDeveloperExceptionPage();
             app.UseAuthentication();
-            app.UseRouting();
+            app.UseAuthorization();
 
+            app.UseStaticFiles();
             app.UseOpenApi();
             app.UseSwaggerUi3();
-            app.UseAuthorization();
             app.UseMiddleware<Middleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "wwwroot";
+
             });
         }
 

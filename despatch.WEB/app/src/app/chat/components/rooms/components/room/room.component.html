@@ -1,3 +1,63 @@
-<p>
-  room works!
-</p>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="app-header">{{ room.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<div *ngIf='!isActiveRoom'>
+  <div class="text-center justify-content-center m-auto">
+    <ion-img class="w-50  m-auto " src='assets/svg/device-messaging.svg'>
+    </ion-img>
+    <div class='mt-4'>
+      <p class='luckiest-guy-font not-join-p'>User has not joined Despatch yet :c</p>
+      <p class='warning-description'>Do you want to send an invitation to join the conversation.</p>
+      <ion-button (click)='sendInvitationSMS()'>Send invitation SMS</ion-button>
+    </div>
+  </div>
+</div>
+<ion-content *ngIf='isActiveRoom'>
+  <!-- <div *ngIf='contacts.length == 0' class="h-100 d-flex">
+      <div class="text-center justify-content-center m-auto">
+        <ion-img class=' m-auto w-75 h-75 not-have-img' src='assets/img/icons-contacts.png'></ion-img>
+        <ion-label class="luckiest-guy-font not-have-label">You may not have contacts yet.</ion-label>
+        <p class='not-have-p'>Do you want to sync them from your device?</p>
+        <ion-button (click)='syncContacts()'>Sync device contact</ion-button>
+      </div>
+    </div>
+    <div *ngIf='contacts.length > 0'>
+      <div *ngFor="let contact of contacts; index as i">
+        <div class="item-item">
+          <div class='d-flex'>
+            <div class='d-flex w-25 item-container-img'>
+              <ion-img *ngIf='contact.contactData?.images[0]?.image?.deviceUrl.path' class="w-75 h-75 m-auto item-img"
+                [src]='sanitizeImage(contact.contactData?.images[0]?.image?.deviceUrl.path)'></ion-img>
+              <div *ngIf='!contact.contactData?.images[0]?.image?.deviceUrl.path'
+                class="w-75 h-75 m-auto item-container-img">
+                <div class="d-flex w-100 h-100 item-img" [ngStyle]="{'background-color': colors[i] }">
+                  <div class='item-phonetic'>
+                    {{ getPhonetic(contact) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='w-75 item-data' (click)='joinContactRoom(contact)'>
+              <div class='item-name'>
+                {{ contact.contactData.displayName }}
+              </div>
+              <div class='item-last-message'>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="getContactsData($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
+</ion-content>
+<ion-footer class="message-textarea">
+  <ion-textarea [disabled]='!isActiveRoom' [placeholder]="getTextareaPlaceholder()" spellcheck='true' rows='1'
+    [autoGrow]='isAutoGrow' (ionInput)='checkCols($event)'>
+
+  </ion-textarea>
+</ion-footer>

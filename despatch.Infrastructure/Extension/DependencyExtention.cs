@@ -1,5 +1,5 @@
 ﻿using despatch.Domain.HelperInterfaces;
-using despatch.Domain.RepositorieInterfaces;
+using despatch.Domain.Repositories;
 using despatch.Domain.Services;
 using despatch.Domain.Services.Interfaces;
 using despatch.Infrastructure.Helpers;
@@ -17,11 +17,14 @@ namespace despatch.Infrastructure.Extension
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IUserRoomRepository, UserRoomRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPhoneNumberRepository, PhoneNumberRepository>();
 
             // Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IFileService, FileService>();
 
             // Helpers
             services.AddScoped<IJwtHelper, JwtHelper>();

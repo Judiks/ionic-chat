@@ -1,8 +1,8 @@
-import { HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { throwError, Observable, EMPTY, BehaviorSubject } from 'rxjs';
-import { switchMap, finalize, filter, take, catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { LoginResponse } from 'src/swagger/models';
 import { RefreshTokenRequest } from 'src/swagger/models/refresh-token-request';
 import { RefreshTokenResponse } from 'src/swagger/models/refresh-token-response';
@@ -26,6 +26,7 @@ export class AuthHelper {
     }
 
     public setUser(model: UserDto) {
+        localStorage.setItem('current-user', JSON.stringify(model));
         this.currentUser.next(model);
     }
 
