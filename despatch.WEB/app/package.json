@@ -20,7 +20,7 @@
     "@angular-devkit/schematics": "^10.2.0",
     "@angular/animations": "^10.2.2",
     "@angular/common": "~10.2.2",
-    "@angular/core": "^10.2.2",
+    "@angular/core": "^11.0.5",
     "@angular/fire": "^6.0.4",
     "@angular/forms": "^10.2.2",
     "@angular/localize": "^10.2.2",
